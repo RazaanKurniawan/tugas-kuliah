@@ -9,23 +9,25 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      title: 'Portal Akademik AI | Universitas & Blog Tugas'
+      title: 'Portal Akademik & Blog Tugas Kuliah | Kelas 17.5A.01'
     }
   },
   {
     path: '/tugas-1',
+    alias: ['/kecerdasan-buatan/tugas-1'],
     name: 'tugas-1',
     component: Tugas1View,
     meta: {
-      title: 'Tugas 1: Sinergi AI & Kognisi Manusia | Blog Kecerdasan Buatan'
+      title: 'Tugas 1: Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman | Kelas 17.5A.01'
     }
   },
   {
     path: '/tugas-2',
+    alias: ['/kecerdasan-buatan/tugas-2'],
     name: 'tugas-2',
     component: Tugas2View,
     meta: {
-      title: 'Tugas 2: Teknik Pencarian & Optimasi AI | Blog Kecerdasan Buatan'
+      title: 'Tugas 2: Penyelesaian Masalah dengan Teknik Pencarian | Kelas 17.5A.01'
     }
   },
   {

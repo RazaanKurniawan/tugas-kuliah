@@ -4,19 +4,20 @@
     <section class="hero-section">
       <div class="container hero-container">
         <div class="hero-badge-wrap">
-          <span class="badge badge-primary">Publikasi Akademik Resmi</span>
-          <span class="badge badge-cyan">Kelas {{ courseInfo.className }}</span>
+          <span class="badge badge-primary">Portal Blog & Arsip Akademik</span>
+          <span class="badge badge-cyan">Kelas {{ portalInfo.className }}</span>
+          <span class="badge badge-emerald">{{ portalInfo.studyProgram }}</span>
         </div>
 
         <h1 class="hero-title">
-          Portal Laporan & Blog Ilmiah<br />
-          <span class="gradient-text">Kecerdasan Buatan</span>
+          Portal Blog Akademik &<br />
+          <span class="gradient-text">Publikasi Tugas Kuliah</span>
         </h1>
 
         <p class="hero-desc">
-          Dokumentasi komprehensif pengerjaan tugas akademik mata kuliah <strong>Kecerdasan Buatan</strong>,
-          Program Studi <strong>{{ courseInfo.studyProgram }}</strong>, {{ courseInfo.institution }}.
-          Disajikan dalam format blog interaktif berstandar ilmiah modern.
+          Platform publikasi digital resmi mahasiswa <strong>Kelas {{ portalInfo.className }}</strong>,
+          Program Studi <strong>{{ portalInfo.studyProgram }}</strong>, {{ portalInfo.institution }}.
+          Dirancang untuk mengarsipkan seluruh laporan dan artikel tugas lintas mata kuliah semester ini.
         </p>
 
         <!-- Quick Submission Action Box -->
@@ -29,9 +30,9 @@
               </svg>
             </div>
             <div>
-              <h4 class="submit-box-title">Pengumpulan Tugas via Link (MyBest)</h4>
+              <h4 class="submit-box-title">Pengumpulan Tugas via Link (Portal MyBest)</h4>
               <p class="submit-box-desc">
-                Sesuai petunjuk pengerjaan (bukan Google Drive), salin link masing-masing tugas berikut untuk dikumpulkan langsung ke MyBest:
+                Salin tautan blog resmi masing-masing tugas berikut untuk dikumpulkan langsung ke MyBest:
               </p>
             </div>
           </div>
@@ -39,13 +40,13 @@
           <div class="submit-box-buttons">
             <CopyLinkBtn
               target-path="/tugas-1"
-              task-name="Tugas 1"
+              task-name="Tugas 1 (AI)"
               label="Salin Link Tugas 1"
               btn-class="btn-primary"
             />
             <CopyLinkBtn
               target-path="/tugas-2"
-              task-name="Tugas 2"
+              task-name="Tugas 2 (AI)"
               label="Salin Link Tugas 2"
               btn-class="btn-secondary"
             />
@@ -54,111 +55,146 @@
       </div>
     </section>
 
-    <!-- Assignments Showcase Section -->
-    <section class="section-assignments">
+    <!-- Multi-Course Hub Section -->
+    <section class="section-courses" id="courses">
       <div class="container">
         <div class="section-header">
-          <span class="badge badge-emerald">Daftar Artikel Tugas</span>
-          <h2 class="section-title">Dokumentasi Tugas Kuliah</h2>
+          <span class="badge badge-cyan">Katalog Akademik Multi-Mata Kuliah</span>
+          <h2 class="section-title">Daftar Mata Kuliah Semester 5</h2>
           <p class="section-sub">
-            Pilih tugas di bawah ini untuk membaca analisis lengkap beserta diagram dan referensi ilmiah.
+            Portal ini dirancang modular untuk menampung seluruh tugas mata kuliah semester ini. Pilih filter untuk melihat tugas yang aktif.
           </p>
         </div>
 
-        <div class="assignments-grid">
-          <!-- Card Tugas 1 -->
-          <article class="assignment-card glass-card glass-card-interactive">
-            <div class="card-badge-row">
-              <span class="badge badge-primary">Tugas 1</span>
-              <span class="reading-time">⏱ {{ assignments[0].readingTime }}</span>
+        <!-- Course Tabs Filter -->
+        <div class="course-filter-bar">
+          <button
+            :class="['filter-btn', { active: selectedCourseId === 'all' }]"
+            @click="selectedCourseId = 'all'"
+          >
+            Semua Mata Kuliah
+          </button>
+          <button
+            v-for="course in courses"
+            :key="course.id"
+            :class="['filter-btn', { active: selectedCourseId === course.id }]"
+            @click="selectedCourseId = course.id"
+          >
+            {{ course.name }}
+            <span v-if="course.status === 'Aktif'" class="counter-badge">{{ course.assignmentsCount }}</span>
+          </button>
+        </div>
+
+        <!-- Active Assignments Grid (Kecerdasan Buatan) -->
+        <div v-if="selectedCourseId === 'all' || selectedCourseId === 'ai'" class="assignments-section-block">
+          <div class="course-category-title">
+            <div class="category-indicator"></div>
+            <div>
+              <h3>Mata Kuliah: Kecerdasan Buatan (Kode: AI-175A)</h3>
+              <p>2 Tugas Essay & Penyelesaian Masalah dengan Teknik Pencarian</p>
             </div>
+          </div>
 
-            <h3 class="card-title">
-              <router-link to="/tugas-1">{{ assignments[0].title }}</router-link>
-            </h3>
+          <div class="assignments-grid">
+            <!-- Tugas 1 -->
+            <article class="assignment-card glass-card glass-card-interactive">
+              <div class="card-badge-row">
+                <span class="badge badge-primary">Tugas 1 • Kecerdasan Buatan</span>
+                <span class="reading-time">⏱ 15 Menit Baca</span>
+              </div>
 
-            <p class="card-summary">{{ assignments[0].summary }}</p>
+              <h3 class="card-title">
+                <router-link to="/tugas-1">
+                  Tugas 1 : Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman
+                </router-link>
+              </h3>
 
-            <div class="topics-tags">
-              <span v-for="(t, i) in assignments[0].topics.slice(0, 4)" :key="i" class="topic-tag">
-                # {{ t }}
-              </span>
-              <span class="topic-tag-more">+3 Topik Lainnya</span>
+              <p class="card-summary">
+                Membahas 7 Soal Essay mengenai Sinergi AI & Kognisi Manusia, Cognitive Offloading, Computational Thinking & Prompt Engineering, Flow State, Etika & Empati, Continuous Learning, dan Kreativitas Zero-to-One.
+              </p>
+
+              <div class="card-footer-actions">
+                <router-link to="/tugas-1" class="btn btn-primary btn-sm">
+                  <span>Baca Tugas 1</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </router-link>
+
+                <CopyLinkBtn
+                  target-path="/tugas-1"
+                  task-name="Tugas 1"
+                  label="Salin Link"
+                  btn-class="btn-secondary btn-sm"
+                />
+
+                <a href="/docs/Tugas1AI.pdf" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF Asli">
+                  PDF
+                </a>
+              </div>
+            </article>
+
+            <!-- Tugas 2 -->
+            <article class="assignment-card glass-card glass-card-interactive">
+              <div class="card-badge-row">
+                <span class="badge badge-cyan">Tugas 2 • Kecerdasan Buatan</span>
+                <span class="reading-time">⏱ 20 Menit Baca</span>
+              </div>
+
+              <h3 class="card-title">
+                <router-link to="/tugas-2">
+                  Tugas 2 : Penyelesaian Masalah dengan Teknik Pencarian (Search Algorithms)
+                </router-link>
+              </h3>
+
+              <p class="card-summary">
+                Membahas 7 Soal Essay Formulasi Masalah (Robot Gudang), Perbandingan BFS vs DFS, Iterative Deepening Search (IDS), Heuristik A* Admissible, Local Search Hill Climbing & Simulated Annealing, Studi Kasus 8-Queens (Min-Conflicts), dan Mitigasi OOM pada Sistem Ride-Hailing.
+              </p>
+
+              <div class="card-footer-actions">
+                <router-link to="/tugas-2" class="btn btn-primary btn-sm">
+                  <span>Baca Tugas 2</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </router-link>
+
+                <CopyLinkBtn
+                  target-path="/tugas-2"
+                  task-name="Tugas 2"
+                  label="Salin Link"
+                  btn-class="btn-secondary btn-sm"
+                />
+
+                <a href="/docs/Tugas2AI.pdf" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF Asli">
+                  PDF
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Upcoming Courses Grid (RPL, Basis Data, Jaringan) -->
+        <div v-if="selectedCourseId === 'all' || selectedCourseId !== 'ai'" class="upcoming-courses-block">
+          <div class="course-category-title" style="margin-top: 3rem;">
+            <div class="category-indicator indicator-muted"></div>
+            <div>
+              <h3>Mata Kuliah Lainnya (Siap untuk Tugas Selanjutnya)</h3>
+              <p>Struktur siap digunakan saat tugas semester aktif diberikan</p>
             </div>
+          </div>
 
-            <div class="card-footer-actions">
-              <router-link to="/tugas-1" class="btn btn-primary btn-sm">
-                <span>Baca Artikel Lengkap</span>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </router-link>
-
-              <CopyLinkBtn
-                target-path="/tugas-1"
-                task-name="Tugas 1"
-                label="Salin Link"
-                btn-class="btn-secondary btn-sm"
-              />
-
-              <a :href="assignments[0].pdfFile" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF Asli">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>PDF</span>
-              </a>
+          <div class="courses-preview-grid">
+            <div
+              v-for="course in otherCourses"
+              :key="course.id"
+              class="course-preview-card glass-card"
+            >
+              <div class="course-code-tag">{{ course.code }}</div>
+              <h4 class="course-preview-title">{{ course.name }}</h4>
+              <p class="course-preview-desc">{{ course.description }}</p>
+              <div class="course-status-pill">
+                <span class="pulse-dot"></span>
+                <span>{{ course.status }}</span>
+              </div>
             </div>
-          </article>
-
-          <!-- Card Tugas 2 -->
-          <article class="assignment-card glass-card glass-card-interactive">
-            <div class="card-badge-row">
-              <span class="badge badge-cyan">Tugas 2</span>
-              <span class="reading-time">⏱ {{ assignments[1].readingTime }}</span>
-            </div>
-
-            <h3 class="card-title">
-              <router-link to="/tugas-2">{{ assignments[1].title }}</router-link>
-            </h3>
-
-            <p class="card-summary">{{ assignments[1].summary }}</p>
-
-            <div class="topics-tags">
-              <span v-for="(t, i) in assignments[1].topics.slice(0, 4)" :key="i" class="topic-tag">
-                # {{ t }}
-              </span>
-              <span class="topic-tag-more">+3 Topik Lainnya</span>
-            </div>
-
-            <div class="card-footer-actions">
-              <router-link to="/tugas-2" class="btn btn-primary btn-sm">
-                <span>Baca Artikel Lengkap</span>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </router-link>
-
-              <CopyLinkBtn
-                target-path="/tugas-2"
-                task-name="Tugas 2"
-                label="Salin Link"
-                btn-class="btn-secondary btn-sm"
-              />
-
-              <a :href="assignments[1].pdfFile" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF Asli">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>PDF</span>
-              </a>
-            </div>
-          </article>
+          </div>
         </div>
       </div>
     </section>
@@ -171,7 +207,7 @@
             <span class="badge badge-amber">Kepatuhan Akademik</span>
             <h3>Kesesuaian dengan Petunjuk Pengerjaan Tugas</h3>
             <p>
-              Website blog ini dirancang khusus untuk memenuhi seluruh 7 instruksi pengerjaan dari dosen pengampu:
+              Website blog ini memenuhi seluruh 7 instruksi pengerjaan dari dosen pengampu:
             </p>
           </div>
 
@@ -196,7 +232,7 @@
               <span class="guide-check">✓</span>
               <div>
                 <strong>3. Pengiriman Menggunakan Link Blog</strong>
-                <p>Setiap halaman tugas memiliki link permanen yang siap dikirim oleh setiap anggota kelompok.</p>
+                <p>Setiap halaman tugas memiliki tautan permanen yang siap dikirim oleh setiap anggota kelompok.</p>
               </div>
             </div>
 
@@ -212,7 +248,7 @@
               <span class="guide-check">✓</span>
               <div>
                 <strong>5. Analisa Terstruktur & Referensi Ilmiah</strong>
-                <p>Dilengkapi buku rujukan standar AI (Russell & Norvig, Cognitive Psychology, IEEE).</p>
+                <p>Teks tugas 100% persis dengan naskah PDF dilengkapi daftar pustaka baku.</p>
               </div>
             </div>
 
@@ -244,12 +280,21 @@
 </template>
 
 <script setup>
-import { COURSE_INFO, ASSIGNMENTS } from '@/data/courseData'
+import { ref, computed } from 'vue'
+import { PORTAL_INFO, COURSES } from '@/data/courseData'
 import CopyLinkBtn from '@/components/CopyLinkBtn.vue'
 import GroupMembersCard from '@/components/GroupMembersCard.vue'
 
-const courseInfo = COURSE_INFO
-const assignments = ASSIGNMENTS
+const portalInfo = PORTAL_INFO
+const courses = COURSES
+const selectedCourseId = ref('all')
+
+const otherCourses = computed(() => {
+  if (selectedCourseId.value === 'all') {
+    return courses.filter(c => c.id !== 'ai')
+  }
+  return courses.filter(c => c.id === selectedCourseId.value)
+})
 </script>
 
 <style scoped>
@@ -336,13 +381,13 @@ const assignments = ASSIGNMENTS
   flex-shrink: 0;
 }
 
-.section-assignments {
+.section-courses {
   padding: 4rem 0 2rem;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .section-title {
@@ -353,8 +398,81 @@ const assignments = ASSIGNMENTS
 .section-sub {
   font-size: 1rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 620px;
   margin: 0 auto;
+}
+
+.course-filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-main);
+  border-color: var(--accent-primary);
+}
+
+.filter-btn.active {
+  background: var(--gradient-brand);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.counter-badge {
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 99px;
+}
+
+.course-category-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.category-indicator {
+  width: 5px;
+  height: 42px;
+  border-radius: 3px;
+  background: var(--accent-primary);
+}
+
+.indicator-muted {
+  background: var(--text-dim);
+}
+
+.course-category-title h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.2rem;
+}
+
+.course-category-title p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
 }
 
 .assignments-grid {
@@ -402,31 +520,9 @@ const assignments = ASSIGNMENTS
 .card-summary {
   font-size: 0.95rem;
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   flex: 1;
-}
-
-.topics-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-bottom: 2rem;
-}
-
-.topic-tag {
-  font-size: 0.78rem;
-  background: rgba(255, 255, 255, 0.04);
-  color: #38bdf8;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-  border: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-}
-
-.topic-tag-more {
-  font-size: 0.78rem;
-  color: var(--text-dim);
-  padding: 0.25rem 0.4rem;
+  line-height: 1.65;
 }
 
 .card-footer-actions {
@@ -436,6 +532,60 @@ const assignments = ASSIGNMENTS
   flex-wrap: wrap;
   padding-top: 1.25rem;
   border-top: 1px solid var(--border-subtle);
+}
+
+.courses-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.course-preview-card {
+  padding: 1.75rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-medium);
+  display: flex;
+  flex-direction: column;
+}
+
+.course-code-tag {
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.course-preview-title {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.course-preview-desc {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  flex: 1;
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.course-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+  align-self: flex-start;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
 }
 
 .section-guidelines {

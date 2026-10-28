@@ -6,31 +6,32 @@
         <nav class="breadcrumb-nav">
           <router-link to="/">Beranda</router-link>
           <span>/</span>
+          <router-link to="/#courses">Mata Kuliah: Kecerdasan Buatan</router-link>
+          <span>/</span>
           <span class="breadcrumb-current">Tugas 1</span>
         </nav>
 
         <div class="article-meta-badges">
           <span class="badge badge-primary">Mata Kuliah: Kecerdasan Buatan</span>
-          <span class="badge badge-cyan">Kelas: {{ courseInfo.className }}</span>
-          <span class="badge badge-emerald">Semester 5</span>
+          <span class="badge badge-cyan">Kelas: {{ portalInfo.className }}</span>
+          <span class="badge badge-emerald">{{ portalInfo.studyProgram }}</span>
         </div>
 
         <h1 class="article-main-title">
-          Tugas 1: Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman
+          Tugas 1 : Kecerdasan Buatan
         </h1>
-
-        <p class="article-lead">
-          Kajian komprehensif mengenai sinergi antara kapasitas komputasi cepat AI dan potensi berpikir kritis-strategis manusia dalam siklus rekayasa perangkat lunak modern.
+        <p class="article-subtitle">
+          Soal Essay: Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman
         </p>
 
-        <!-- Identity Banner -->
+        <!-- Identity Banner (Persis Sesuai Dokumen Jawaban) -->
         <div class="identity-banner glass-card">
           <div class="identity-header">
-            <strong>Tim Penyusun (Kelompok):</strong>
-            <span>Program Studi {{ courseInfo.studyProgram }} • {{ courseInfo.institution }}</span>
+            <strong>Identitas Kelompok:</strong>
+            <span>Kelas : {{ portalInfo.className }} • Program Studi : {{ portalInfo.studyProgram }}</span>
           </div>
           <div class="members-chips">
-            <span v-for="m in courseInfo.members" :key="m.nim" class="member-chip">
+            <span v-for="m in portalInfo.members" :key="m.nim" class="member-chip">
               <span class="chip-name">{{ m.name }}</span>
               <span class="chip-nim">({{ m.nim }})</span>
             </span>
@@ -52,7 +53,7 @@
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <span>Unduh PDF Soal & Jawaban</span>
+            <span>Unduh PDF Asli (Tugas1AI.pdf)</span>
           </a>
 
           <button class="btn btn-outline" @click="printPage">
@@ -71,57 +72,73 @@
     <div class="container article-layout">
       <!-- Article Body -->
       <main class="article-body">
+        <!-- Petunjuk Pengerjaan Box (Persis Seperti di PDF) -->
+        <section class="guidelines-accordion glass-card">
+          <div class="guidelines-card-header" @click="showGuidelines = !showGuidelines">
+            <div class="guidelines-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <strong>Petunjuk Pengerjaan Tugas (Sesuai PDF)</strong>
+            </div>
+            <span class="accordion-toggle">{{ showGuidelines ? 'Sembunyikan ▲' : 'Lihat 7 Petunjuk ▼' }}</span>
+          </div>
+
+          <div v-show="showGuidelines" class="guidelines-content">
+            <ol class="pdf-instructions-list">
+              <li>Kerjakan secara Kelompok</li>
+              <li>Buat pada Blog atau Web pribadi bukan Google Drive.</li>
+              <li>Setiap anggota kelompok WAJIB mengirimkan jawaban dengan menggunakan LINK dari Blog yang dipilih.</li>
+              <li>Cantumkan NIM, Nama Lengkap pada jawaban yang diberikan</li>
+              <li>Kerjakan dengan Analisa yang baik dan terstruktur, serta dilengkapi dengan sumber referensi yang digunakan (Boleh menggunakan bantuan AI, ChatGPT dan sejenisnya, namun harus diperkuat dengan hasil pemikiran sendiri).</li>
+              <li>Jawaban dapat disertai dengan gambar atau diagram pendukungnya.</li>
+              <li>Muat hasil pengerjaan pada Link di MyBest</li>
+            </ol>
+          </div>
+        </section>
+
         <!-- ==================== SOAL 1 ==================== -->
         <section id="soal-1" class="question-card glass-card">
           <div class="question-header">
             <div class="question-number-badge">01</div>
             <div>
               <span class="badge badge-primary">Soal 1</span>
-              <h2>Sinergi AI dan Kognisi Manusia</h2>
+              <h2>SOAL 1: SINERGI AI DAN KOGNISI MANUSIA</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> Dalam paradigma pemrograman modern, terjadi pergeseran dari menulis kode baris demi baris secara manual menuju kolaborasi dengan AI (seperti GitHub Copilot atau ChatGPT). Jelaskan bagaimana sinergi antara "kapasitas komputasi cepat dari AI" dan "potensi berpikir kritis serta strategis dari manusia" dapat menciptakan siklus pengembangan perangkat lunak yang lebih efektif dan inovatif!
+            <strong>Soal 1: Sinergi AI dan Kognisi Manusia</strong> Dalam paradigma pemrograman modern, terjadi pergeseran dari menulis kode baris demi baris secara manual menuju kolaborasi dengan AI (seperti GitHub Copilot atau ChatGPT). Jelaskan bagaimana sinergi antara "kapasitas komputasi cepat dari AI" dan "potensi berpikir kritis serta strategis dari manusia" dapat menciptakan siklus pengembangan perangkat lunak yang lebih efektif dan inovatif!
           </div>
 
-          <div class="answer-content">
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 1</div>
+            
             <p>
               Sinergi antara kapasitas komputasi AI dan pemikiran kritis manusia mengubah siklus pengembangan perangkat lunak dari metode linier manual menjadi siklus kolaboratif yang adaptif.
             </p>
 
-            <div class="concept-grid">
-              <div class="concept-card">
-                <div class="concept-icon">⚡</div>
-                <h4>1. Peran Komputasi Cepat AI</h4>
-                <p class="concept-tagline">Akselerasi Sintaks dan Pola</p>
-                <p>
-                  AI seperti GitHub Copilot dan ChatGPT memiliki keunggulan dalam pemrosesan data berbasis probabilitas statistik skala besar. AI dapat menghasilkan struktur kode dasar (<em>boilerplate</em>), mengonversi struktur data, melengkapi sintaksis secara instan, serta mengidentifikasi bug umum tanpa jeda berpikir. Hal ini memangkas waktu kerja mekanis secara drastis.
-                </p>
-              </div>
-
-              <div class="concept-card">
-                <div class="concept-icon">🧠</div>
-                <h4>2. Peran Kognisi Manusia</h4>
-                <p class="concept-tagline">Arah, Konteks & Strategi</p>
-                <p>
-                  AI tidak memahami intensi bisnis, konteks batas sistem, maupun kompromi arsitektur. Manusia berperan sebagai pengambil keputusan strategis yang menentukan:
-                </p>
-                <ul>
-                  <li><strong>Batasan domain</strong> dan kebutuhan bisnis nyata.</li>
-                  <li><strong>Evaluasi trade-off</strong> (misalnya memilih antara optimasi latensi versus konsistensi data).</li>
-                  <li><strong>Validasi keamanan</strong>, logika alur proses, dan kepatuhan sistem.</li>
-                </ul>
-              </div>
+            <div class="verbatim-item">
+              <h4>1. Peran Komputasi Cepat AI (Akselerasi Sintaks dan Pola)</h4>
+              <p>
+                AI seperti GitHub Copilot dan ChatGPT memiliki keunggulan dalam pemrosesan data berbasis probabilitas statistik skala besar. AI dapat menghasilkan struktur kode dasar (boilerplate), mengonversi struktur data, melengkapi sintaksis secara instan, serta mengidentifikasi bug umum tanpa jeda berpikir. Hal ini memangkas waktu kerja mekanis secara drastis.
+              </p>
             </div>
 
-            <div class="callout callout-tip">
-              <div class="callout-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span>3. Siklus Pengembangan yang Efektif dan Inovatif</span>
-              </div>
+            <div class="verbatim-item">
+              <h4>2. Peran Berpikir Kritis dan Strategis Manusia (Arah dan Konteks)</h4>
               <p>
-                Integrasi keduanya menciptakan <strong>umpan balik yang sangat singkat</strong> (<em>tight feedback loop</em>). Pengembang dapat mengeksplorasi ide dan membuat prototipe dalam hitungan menit, bukan berhari-hari. Manusia mengarahkan hipotesis, AI merealisasikannya dalam bentuk draf kode, dan manusia memvalidasinya secara kritis. Siklus iterasi cepat ini memberikan ruang mental lebih luas bagi pengembang untuk merancang inovasi fitur yang solutif.
+                AI tidak memahami intensi bisnis, konteks batas sistem, maupun kompromi arsitektur. Manusia berperan sebagai pengambil keputusan strategis yang menentukan:
+              </p>
+              <ul>
+                <li>Batasan domain dan kebutuhan bisnis nyata.</li>
+                <li>Evaluasi trade-off (misalnya memilih antara optimasi latensi versus konsistensi data).</li>
+                <li>Validasi keamanan, logika alur proses, dan kepatuhan sistem.</li>
+              </ul>
+            </div>
+
+            <div class="verbatim-item">
+              <h4>3. Siklus Pengembangan yang Efektif dan Inovatif</h4>
+              <p>
+                Integrasi keduanya menciptakan umpan balik yang sangat singkat. Pengembang dapat mengeksplorasi ide dan membuat prototipe dalam hitungan menit, bukan berhari-hari. Manusia mengarahkan hipotesis, AI merealisasikannya dalam bentuk draf kode, dan manusia memvalidasinya secara kritis. Siklus iterasi cepat ini memberikan ruang mental lebih luas bagi pengembang untuk merancang inovasi fitur yang solutif.
               </p>
             </div>
           </div>
@@ -133,57 +150,41 @@
             <div class="question-number-badge">02</div>
             <div>
               <span class="badge badge-cyan">Soal 2</span>
-              <h2>Pembebasan Beban Kognitif (Cognitive Offloading)</h2>
+              <h2>SOAL 2: PEMBEBASAN BEBAN KOGNITIF (COGNITIVE OFFLOADING)</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> Banyak tugas dalam pemrograman bersifat repetitif dan menghabiskan beban kognitif manusia, seperti menulis boilerplate code, melakukan formatting, atau mencari syntax error.<br />
+            <strong>Soal 2: Pembebasan Beban Kognitif (Cognitive Offloading)</strong> Banyak tugas dalam pemrograman bersifat repetitif dan menghabiskan beban kognitif manusia, seperti menulis boilerplate code, melakukan formatting, atau mencari syntax error.<br />
             a. Jelaskan konsep cognitive offloading dalam konteks penggunaan AI pemrograman!<br />
             b. Bagaimana teknik pembebasan beban kognitif ini memungkinkan programmer memaksimalkan potensi manusianya pada level berpikir yang lebih tinggi (seperti System Design atau arsitektur perangkat lunak)?
           </div>
 
-          <div class="answer-content">
-            <h3>a. Konsep Cognitive Offloading dalam Penggunaan AI Pemrograman</h3>
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 2</div>
+
+            <h4>a. Konsep Cognitive Offloading dalam Penggunaan AI Pemrograman</h4>
             <p>
-              <strong>Cognitive offloading</strong> adalah praktik mengalihkan beban pemrosesan informasi dari memori kerja (<em>working memory</em>) manusia ke alat bantu eksternal. Dalam pemrograman, memori kerja manusia memiliki keterbatasan kapasitas dalam menampung informasi secara simultan.
-            </p>
-            <p>
-              Saat menggunakan asisten AI, beban mengingat detail sintaks bahasa, aturan regex, penulisan fungsi CRUD berulang, hingga format struktur JSON dialihkan ke sistem AI. Programmer tidak perlu lagi menghabiskan daya ingat untuk hal-hal mekanis, melainkan cukup mengenali dan mengonfirmasi pola yang dihasilkan oleh AI.
+              Cognitive offloading adalah praktik mengalihkan beban pemrosesan informasi dari memori kerja manusia ke alat bantu eksternal. Dalam pemrograman, memori kerja manusia memiliki keterbatasan kapasitas dalam menampung informasi secara simultan. Saat menggunakan asisten AI, beban mengingat detail sintaks bahasa, aturan regex, penulisan fungsi CRUD berulang, hingga format struktur JSON dialihkan ke sistem AI. Programmer tidak perlu lagi menghabiskan daya ingat untuk hal-hal mekanis, melainkan cukup mengenali dan mengonfirmasi pola yang dihasilkan oleh AI.
             </p>
 
             <hr class="section-divider" />
 
-            <h3>b. Peningkatan Potensi Manusia ke Level Berpikir yang Lebih Tinggi</h3>
+            <h4>b. Peningkatan Potensi Manusia ke Level Berpikir yang Lebih Tinggi</h4>
             <p>
-              Dengan berkurangnya beban kognitif eksternal (<em>extraneous cognitive load</em>), energi mental programmer terbebas untuk menangani beban kognitif hakiki (<em>germane cognitive load</em>). Dampak konkretnya meliputi:
+              Dengan berkurangnya beban kognitif eksternal (extraneous cognitive load), energi mental programmer terbebas untuk menangani beban kognitif hakiki (germane cognitive load). Dampak konkretnya meliputi:
             </p>
-
-            <div class="feature-bullets">
-              <div class="bullet-box">
-                <span class="bullet-badge">Arsitektur</span>
-                <h4>Perancangan System Design</h4>
-                <p>
-                  Fokus beralih pada pemisahan modul, penentuan pola komunikasi antar-layanan (seperti arsitektur berbasis event atau mikrolayanan), dan ketahanan sistem (<em>fault tolerance</em>).
-                </p>
-              </div>
-
-              <div class="bullet-box">
-                <span class="bullet-badge">Keandalan</span>
-                <h4>Analisis Skalabilitas dan Keamanan</h4>
-                <p>
-                  Programmer dapat mencurahkan waktu untuk menganalisis potensi bottleneck konkurensi, merancang skema mitigasi beban tinggi, serta merumuskan tata kelola keamanan data pengguna.
-                </p>
-              </div>
-
-              <div class="bullet-box">
-                <span class="bullet-badge">Data</span>
-                <h4>Pemodelan Data Komprehensif</h4>
-                <p>
-                  Fokus beralih ke hubungan entitas jangka panjang dan efisiensi query tingkat lanjut, bukan sekadar menulis sintaks pembuatan tabel basis data.
-                </p>
-              </div>
-            </div>
+            <ul>
+              <li>
+                <strong>Perancangan System Design:</strong> Fokus beralih pada pemisahan modul, penentuan pola komunikasi antar-layanan (seperti arsitektur berbasis event atau mikrolayanan), dan ketahanan sistem (fault tolerance).
+              </li>
+              <li>
+                <strong>Analisis Skalabilitas dan Keamanan:</strong> Programmer dapat mencurahkan waktu untuk menganalisis potensi bottleneck konkurensi, merancang skema mitigasi beban tinggi, serta merumuskan tata kelola keamanan data pengguna.
+              </li>
+              <li>
+                <strong>Pemodelan Data Komprehensif:</strong> Fokus beralih ke hubungan entitas jangka panjang dan efisiensi query tingkat lanjut, bukan sekadar menulis sintaks pembuatan tabel.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -193,76 +194,52 @@
             <div class="question-number-badge">03</div>
             <div>
               <span class="badge badge-emerald">Soal 3</span>
-              <h2>Computational Thinking dan Prompt Engineering</h2>
+              <h2>SOAL 3: COMPUTATIONAL THINKING DAN PROMPT ENGINEERING</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> Era AI mengubah skill wajib programmer, salah satunya adalah Prompt Engineering (rekayasa perintah).<br />
+            <strong>Soal 3: Computational Thinking dan Prompt Engineering</strong> Era AI mengubah skill wajib programmer, salah satunya adalah Prompt Engineering (rekayasa perintah).<br />
             a. Jelaskan hubungan antara Computational Thinking (cara berpikir komputasional manusia) dengan kemampuan menyusun prompt yang baik untuk menghasilkan kode AI yang akurat!<br />
             b. Mengapa kemampuan merancang logika dan memecahkan masalah (problem decomposition) oleh otak manusia masih menjadi fondasi utama, meskipun AI sudah bisa menulis kode secara otomatis?
           </div>
 
-          <div class="answer-content">
-            <h3>a. Hubungan Computational Thinking dengan Kualitas Prompt</h3>
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 3</div>
+
+            <h4>a. Hubungan Computational Thinking dengan Kualitas Prompt</h4>
             <p>
-              <strong>Prompt Engineering</strong> bukan sekadar menyusun kalimat instruksi dalam bahasa sehari-hari, melainkan proses translasi logika komputasional menjadi spesifikasi formal yang dapat dieksekusi mesin. Penerapannya mencakup empat pilar <em>Computational Thinking</em>:
+              Prompt Engineering bukan sekadar menyusun kalimat instruksi dalam bahasa sehari-hari, melainkan proses translasi logika komputasional menjadi spesifikasi yang dapat dieksekusi mesin. Penerapannya mencakup empat pilar:
             </p>
-
-            <div class="four-pillars-grid">
-              <div class="pillar-card">
-                <div class="pillar-num">01</div>
-                <h4>Dekomposisi</h4>
-                <p>
-                  Memecah fungsionalitas aplikasi besar menjadi modul-modul instruksi kecil dan spesifik agar AI tidak kehilangan konteks logika selama generasi token.
-                </p>
-              </div>
-
-              <div class="pillar-card">
-                <div class="pillar-num">02</div>
-                <h4>Pengenalan Pola</h4>
-                <p>
-                  Mengidentifikasi kebutuhan perancangan dan menginstruksikan AI untuk menerapkan pola desain perangkat lunak yang sesuai (misalnya Singleton, Factory, atau Repository Pattern).
-                </p>
-              </div>
-
-              <div class="pillar-card">
-                <div class="pillar-num">03</div>
-                <h4>Abstraksi</h4>
-                <p>
-                  Memilah detail yang tidak relevan dan berfokus memberikan definisi input, batasan kondisi (<em>constraints</em>), serta format output yang diinginkan secara eksplisit.
-                </p>
-              </div>
-
-              <div class="pillar-card">
-                <div class="pillar-num">04</div>
-                <h4>Perancangan Algoritma</h4>
-                <p>
-                  Menuliskan urutan langkah logis (pseudocode berurutan) di dalam prompt agar alur prediksi kode oleh model bahasa tetap terarah dan minim halusinasi.
-                </p>
-              </div>
-            </div>
+            <ul>
+              <li>
+                <strong>Dekomposisi:</strong> Memecah fungsionalitas aplikasi besar menjadi modul-modul instruksi kecil dan spesifik agar AI tidak kehilangan konteks logika.
+              </li>
+              <li>
+                <strong>Pengenalan Pola:</strong> Mengidentifikasi kebutuhan perancangan dan menginstruksikan AI untuk menerapkan pola desain perangkat lunak yang sesuai (misalnya Singleton, Factory, atau Repository Pattern).
+              </li>
+              <li>
+                <strong>Abstraksi:</strong> Memilah detail yang tidak relevan dan berfokus memberikan definisi input, batasan kondisi (constraints), serta format output yang diinginkan secara eksplisit.
+              </li>
+              <li>
+                <strong>Perancangan Algoritma:</strong> Menuliskan urutan langkah logis (pseudocode berurutan) di dalam prompt agar alur prediksi kode oleh model bahasa tetap terarah dan minim halusinasi.
+              </li>
+            </ul>
 
             <hr class="section-divider" />
 
-            <h3>b. Mengapa Perancangan Logika dan Pemecahan Masalah Tetap Jadi Fondasi Utama</h3>
+            <h4>b. Mengapa Perancangan Logika dan Pemecahan Masalah Tetap Jadi Fondasi Utama</h4>
             <p>
-              AI bekerja berdasarkan <strong>prediksi probabilitas statistik dari token teks</strong>, bukan penalaran atas pemahaman semantik dunia nyata. Kelemahan mendasar ini menegaskan bahwa:
+              AI bekerja berdasarkan prediksi probabilitas statistik dari token teks, bukan penalaran atas pemahaman semantik dunia nyata. Kelemahan mendasar ini menegaskan bahwa:
             </p>
-
-            <div class="callout callout-warning">
-              <div class="callout-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                <span>Masalah yang Tidak Terdefinisi Menghasilkan Kode yang Salah</span>
-              </div>
-              <p>
-                Jika manusia gagal memetakan batas masalah dengan benar, AI akan menghasilkan kode yang rapi secara sintaks, namun sama sekali tidak menyelesaikan masalah bisnis (<em>syntactically correct, semantically useless</em>).
-              </p>
-            </div>
-
-            <p>
-              <strong>Penanganan Kondisi Ekstrem (Edge Cases):</strong> Otak manusia sangat diperlukan untuk mengantisipasi anomali bisnis dan skenario ekstrem yang tidak tercantum dalam dataset pelatihan AI. AI mengeksekusi sintaks, tetapi logika penyelesaian masalah tetap bersumber dari manusia.
-            </p>
+            <ul>
+              <li>
+                <strong>Masalah yang Tidak Terdefinisi Menghasilkan Kode yang Salah:</strong> Jika manusia gagal memetakan batas masalah dengan benar, AI akan menghasilkan kode yang rapi secara sintaks, namun sama sekali tidak menyelesaikan masalah bisnis (syntactically correct, semantically useless).
+              </li>
+              <li>
+                <strong>Penanganan Kondisi Ekstrem (Edge Cases):</strong> Otak manusia diperlukan untuk mengantisipasi anomali bisnis dan skenario ekstrem yang tidak tercantum dalam dataset pelatihan AI. AI mengeksekusi sintaks, tetapi logika penyelesaian masalah tetap bersumber dari manusia.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -272,57 +249,37 @@
             <div class="question-number-badge">04</div>
             <div>
               <span class="badge badge-amber">Soal 4</span>
-              <h2>Flow State dan Gangguan Algoritma</h2>
+              <h2>SOAL 4: FLOW STATE DAN GANGGUAN ALGORITMA</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> Salah satu teknik peningkatan potensi manusia dalam bekerja adalah mencapai kondisi Flow (aliran kerja yang dalam dan fokus penuh). Namun, penggunaan AI yang terus-menerus memunculkan saran (autocompletion) berpotensi memecah konsentrasi programmer. Bagaimana seorang programmer dapat mengelola interaksi dengan AI agar tetap memasuki dan mempertahankan Flow State, alih-alih menjadi "operator" yang terganggu oleh pop-up AI?
+            <strong>Soal 4: Flow State dan Gangguan Algoritma</strong> Salah satu teknik peningkatan potensi manusia dalam bekerja adalah mencapai kondisi Flow (aliran kerja yang dalam dan fokus penuh). Namun, penggunaan AI yang terus-menerus memunculkan saran (autocompletion) berpotensi memecah konsentrasi programmer. Bagaimana seorang programmer dapat mengelola interaksi dengan AI agar tetap memasuki dan mempertahankan Flow State, alih-alih menjadi "operator" yang terganggu oleh pop-up AI?
           </div>
 
-          <div class="answer-content">
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 4</div>
+
             <p>
-              Kondisi <strong>Flow</strong> tercapai saat terjadi keseimbangan optimal antara tantangan teknis dan keterampilan terfokus tanpa adanya interupsi eksternal. Pop-up saran autocompletion yang muncul terus-menerus memecah alur pikir internal dan menimbulkan kelelahan mengambil keputusan (<em>decision fatigue</em>) karena programmer dipaksa terus mengevaluasi saran AI alih-alih merumuskan logikanya sendiri.
+              Kondisi Flow tercapai saat terjadi keseimbangan antara tantangan teknis dan keterampilan terfokus tanpa adanya interupsi eksternal. Pop-up saran autocompletion yang muncul terus-menerus memecah alur pikir internal dan menimbulkan kelelahan mengambil keputusan (decision fatigue) karena programmer dipaksa terus mengevaluasi saran AI alih-alih merumuskan logikanya sendiri.
             </p>
 
-            <h4>Langkah Mengelola Interaksi agar Flow State Tetap Terjaga:</h4>
-
-            <div class="steps-flow">
-              <div class="step-flow-item">
-                <div class="step-flow-badge">1</div>
-                <div>
-                  <strong>Mengubah Mode Interaksi Menjadi On-Demand</strong>
-                  <p>
-                    Matikan fitur saran inline otomatis (<em>ghost text</em>) yang muncul setiap kali mengetik. Ubah pengaturannya agar saran AI hanya muncul ketika dipanggil secara manual menggunakan tombol pintasan keyboard (misalnya kombinasi <code>Alt + \</code> atau <code>Ctrl + Space</code>).
-                  </p>
-                </div>
-              </div>
-
-              <div class="step-flow-item">
-                <div class="step-flow-badge">2</div>
-                <div>
-                  <strong>Pemisahan Fase Desain dan Fase Implementasi (Two-Phase Workflow)</strong>
-                  <ul>
-                    <li>
-                      <strong>Tahap Pertama (Deep Thinking):</strong> Buat kerangka algoritma, struktur antarmuka, dan definisi tipe data secara mandiri tanpa bantuan AI untuk membangun pemahaman mental yang utuh.
-                    </li>
-                    <li>
-                      <strong>Tahap Kedua (Execution Acceleration):</strong> Panggil AI untuk mengisi implementasi fungsi rutin, menghasilkan unit test, atau merapikan dokumentasi kode berdasarkan kerangka yang telah dibuat.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="step-flow-item">
-                <div class="step-flow-badge">3</div>
-                <div>
-                  <strong>Mengisolasi Layar Kerja</strong>
-                  <p>
-                    Gunakan jendela obrolan AI secara terpisah pada monitor kedua atau tab berbeda untuk sesi tanya-jawab konsep, sehingga editor kode utama tetap bersih dari interupsi visual.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <h4>Langkah mengelola interaksi agar Flow State tetap terjaga:</h4>
+            <ul>
+              <li>
+                <strong>Mengubah Mode Interaksi Menjadi On-Demand:</strong> Matikan fitur saran inline otomatis (ghost text) yang muncul setiap kali mengetik. Ubah pengaturannya agar saran AI hanya muncul ketika dipanggil secara manual menggunakan tombol pintasan keyboard (misalnya kombinasi Alt + \ atau Ctrl + Space).
+              </li>
+              <li>
+                <strong>Pemisahan Fase Desain dan Fase Implementasi:</strong>
+                <ol>
+                  <li><strong>Tahap Pertama (Deep Thinking):</strong> Buat kerangka algoritma, struktur antarmuka, dan definisi tipe data secara mandiri tanpa bantuan AI untuk membangun pemahaman mental yang utuh.</li>
+                  <li><strong>Tahap Kedua (Execution Acceleration):</strong> Panggil AI untuk mengisi implementasi fungsi rutin, menghasilkan unit test, atau merapikan dokumentasi kode berdasarkan kerangka yang telah dibuat.</li>
+                </ol>
+              </li>
+              <li>
+                <strong>Mengisolasi Layar Kerja:</strong> Gunakan jendela obrolan AI secara terpisah pada monitor kedua atau tab berbeda untuk sesi tanya-jawab konsep, sehingga editor kode utama tetap bersih dari interupsi visual.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -332,50 +289,38 @@
             <div class="question-number-badge">05</div>
             <div>
               <span class="badge badge-primary">Soal 5</span>
-              <h2>Etika, Empati, dan Tanggung Jawab Sosial</h2>
+              <h2>SOAL 5: ETIKA, EMPATI, DAN TANGGUNG JAWAB SOSIAL</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> AI dapat menuliskan kode algoritma yang menentukan siapa yang mendapat pinjaman bank, siapa yang lolos seleksi kerja, atau bagaimana data privasi pengguna diolah. AI tidak memiliki kesadaran moral atau empati.<br />
+            <strong>Soal 5: Etika, Empati, dan Tanggung Jawab Sosial</strong> AI dapat menuliskan kode algoritma yang menentukan siapa yang mendapat pinjaman bank, siapa yang lolos seleksi kerja, atau bagaimana data privasi pengguna diolah. AI tidak memiliki kesadaran moral atau empati.<br />
             a. Mengapa "Empati" dan "Etika" merupakan teknik potensi manusia yang tidak bisa digantikan oleh AI dalam fase desain algoritma?<br />
             b. Jelaskan bagaimana tanggung jawab seorang programmer (Human Responsibility) diuji ketika kode yang dihasilkan oleh AI mengandung bias atau diskriminasi!
           </div>
 
-          <div class="answer-content">
-            <h3>a. Mengapa Empati dan Etika Tidak Bisa Digantikan AI dalam Desain Algoritma</h3>
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 5</div>
+
+            <h4>a. Mengapa Empati dan Etika Tidak Bisa Digantikan AI dalam Desain Algoritma</h4>
             <p>
               Model AI beroperasi secara mekanis untuk mengoptimalkan metrik matematis atau mencari korelasi data tanpa memiliki kesadaran nilai moral.
             </p>
-
-            <div class="duo-cards">
-              <div class="duo-card">
-                <h4>❤️ Empati</h4>
-                <p>
-                  Diperlukan untuk memahami dampak psikologis dan sosial dari sebuah perangkat lunak terhadap manusia nyata. Sebagai contoh:
-                </p>
-                <ul>
-                  <li>Mempertimbangkan kebutuhan aksesibilitas penyandang disabilitas (a11y).</li>
-                  <li>Rancangan antarmuka yang tidak manipulatif (menghindari <em>dark patterns</em>).</li>
-                  <li>Melindungi pengguna rentan dari jebakan finansial digital.</li>
-                </ul>
-              </div>
-
-              <div class="duo-card">
-                <h4>⚖️ Etika</h4>
-                <p>
-                  Berfungsi sebagai kompas pembatas untuk menentukan batasan moral: apakah sebuah algoritma layak diterapkan meskipun secara matematis sangat menguntungkan? AI dapat menghitung efisiensi secara akurat, namun hanya manusia yang dapat memutuskan aspek keadilan (<em>fairness</em>) dan kelayakan moralnya.
-                </p>
-              </div>
-            </div>
+            <ul>
+              <li>
+                <strong>Empati:</strong> Diperlukan untuk memahami dampak psikologis dan sosial dari sebuah perangkat lunak terhadap manusia nyata. Sebagai contoh, mempertimbangkan kebutuhan aksesibilitas penyandang disabilitas, rancangan antarmuka yang tidak manipulatif (menghindari dark patterns), serta melindungi pengguna rentan dari jebakan finansial digital.
+              </li>
+              <li>
+                <strong>Etika:</strong> Berfungsi sebagai kompas pembatas untuk menentukan batasan moral: apakah sebuah algoritma layak diterapkan meskipun secara matematis sangat menguntungkan? AI dapat menghitung efisiensi secara akurat, namun hanya manusia yang dapat memutuskan aspek keadilan (fairness) dan kelayakan moralnya.
+              </li>
+            </ul>
 
             <hr class="section-divider" />
 
-            <h3>b. Tanggung Jawab Programmer (Human Responsibility) terhadap Bias Algoritma</h3>
+            <h4>b. Tanggung Jawab Programmer (Human Responsibility) terhadap Bias Algoritma</h4>
             <p>
               Ketika kode yang dihasilkan atau disarankan oleh AI memicu bias (misalnya diskriminasi rasial atau gender pada sistem seleksi kerja):
             </p>
-
             <ul>
               <li>
                 <strong>Akuntabilitas Tidak Dapat Dilimpahkan:</strong> Mesin tidak memiliki subjek hukum atau tanggung jawab moral. Tanggung jawab mutlak berada pada programmer, tim rekayasa, dan organisasi yang merilis sistem tersebut.
@@ -396,56 +341,33 @@
             <div class="question-number-badge">06</div>
             <div>
               <span class="badge badge-cyan">Soal 6</span>
-              <h2>Pembelajaran Berkelanjutan (Continuous Learning)</h2>
+              <h2>SOAL 6: PEMBELAJARAN BERKELANJUTAN (CONTINUOUS LEARNING)</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> Kemampuan AI dalam menulis kode berpotensi membuat programmer pemula terlalu bergantung pada AI (automation bias), sehingga tidak memahami logika dasar di balik kode tersebut. Jelaskan bagaimana programmer harus memanfaatkan AI sebagai "tutor" untuk mempercepat pembelajaran (potensi penyerahan ilmu), alih-alih hanya sebagai "tukang ketik" yang membunuh kemampuan continuous learning!
+            <strong>Soal 6: Pembelajaran Berkelanjutan (Continuous Learning)</strong> Kemampuan AI dalam menulis kode berpotensi membuat programmer pemula terlalu bergantung pada AI (automation bias), sehingga tidak memahami logika dasar di balik kode tersebut. Jelaskan bagaimana programmer harus memanfaatkan AI sebagai "tutor" untuk mempercepat pembelajaran (potensi penyerahan ilmu), alih-alih hanya sebagai "tukang ketik" yang membunuh kemampuan continuous learning!
           </div>
 
-          <div class="answer-content">
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 6</div>
+
             <p>
-              Kecenderungan menyalin kode AI secara langsung memicu <strong>bias otomatisasi</strong> (<em>automation bias</em>), yang berujung pada penurunan daya analisis mendalam (<em>cognitive atrophy</em>) saat terjadi kesalahan sistem kritis di lingkungan produksi.
+              Kecenderungan menyalin kode AI secara langsung memicu bias otomatisasi (automation bias), yang berujung pada penurunan daya analisis mendalam (cognitive atrophy) saat terjadi kesalahan sistem di lingkungan produksi.
             </p>
 
-            <h4>Langkah Memanfaatkan AI sebagai Tutor Pembelajaran Aktif:</h4>
-
-            <div class="tutor-box">
-              <div class="tutor-item">
-                <span class="tutor-badge">1. Socratic Prompting</span>
-                <h4>Menerapkan Metode Tanya Sokratik</h4>
-                <p>
-                  Jangan meminta kode instan. Arahkan AI dengan perintah panduan dialogis.
-                </p>
-                <div class="example-prompt-box">
-                  <code>
-                    "Jelaskan konsep di balik penanganan race condition ini, berikan petunjuk logika tanpa menuliskan kodenya secara langsung, dan uji pemahaman saya dengan pertanyaan bertahap."
-                  </code>
-                </div>
-              </div>
-
-              <div class="tutor-item">
-                <span class="tutor-badge">2. Trade-Off Analysis</span>
-                <h4>Analisis Trade-off dan Kompleksitas Algoritma</h4>
-                <p>
-                  Manfaatkan AI untuk menguji kode yang telah kita tulis sendiri secara mandiri.
-                </p>
-                <div class="example-prompt-box">
-                  <code>
-                    "Berapa notasi Big-O (waktu dan memori) dari fungsi ini, dan bagaimana perbandingannya jika saya menggunakan pendekatan struktur data alternatif?"
-                  </code>
-                </div>
-              </div>
-
-              <div class="tutor-item">
-                <span class="tutor-badge">3. Deep Refactoring</span>
-                <h4>Pelajari Alasan di Balik Refactoring</h4>
-                <p>
-                  Saat meminta AI mengoptimalkan kode yang sudah ada, instruksikan agar AI menyertakan penjelasan detail alasan teknis di balik setiap perubahan, prinsip <em>Clean Code</em> yang diterapkan, serta implikasinya terhadap performa sistem.
-                </p>
-              </div>
-            </div>
+            <h4>Langkah memanfaatkan AI sebagai tutor pembelajaran aktif:</h4>
+            <ul>
+              <li>
+                <strong>Menerapkan Metode Tanya Sokratik (Socratic Prompting):</strong> Jangan meminta kode instan. Arahkan AI dengan perintah panduan, misalnya: <em>"Jelaskan konsep di balik penanganan race condition ini, berikan petunjuk logika tanpa menuliskan kodenya secara langsung, dan uji pemahaman saya dengan pertanyaan bertahap."</em>
+              </li>
+              <li>
+                <strong>Analisis Trade-off dan Kompleksitas Algoritma:</strong> Manfaatkan AI untuk menguji kode yang telah kita tulis sendiri dengan pertanyaan: <em>"Berapa notasi Big-O (waktu dan memori) dari fungsi ini, dan bagaimana perbandingannya jika saya menggunakan pendekatan struktur data alternatif?"</em>
+              </li>
+              <li>
+                <strong>Pelajari Alasan di Balik Refactoring:</strong> Saat meminta AI mengoptimalkan kode yang sudah ada, instruksikan agar AI menyertakan penjelasan detail alasan teknis di balik setiap perubahan, prinsip Clean Code yang diterapkan, serta implikasinya terhadap performa sistem.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -455,46 +377,33 @@
             <div class="question-number-badge">07</div>
             <div>
               <span class="badge badge-emerald">Soal 7</span>
-              <h2>Kreativitas Manusia dalam Inovasi Teknologi</h2>
+              <h2>SOAL 7: KREATIVITAS MANUSIA DALAM INOVASI TEKNOLOGI</h2>
             </div>
           </div>
 
           <div class="question-prompt">
-            <strong>Pertanyaan:</strong> AI dilatih berdasarkan data masa lalu (kode-kode yang sudah ada di internet). Oleh karena itu, AI sangat hebat dalam mereplikasi pola yang sudah ada. Jelaskan mengapa "Kreativitas Manusia" (intuisi, imajinasi, dan visi masa depan) masih menjadi penggerak utama dalam memecahkan masalah arsitektur perangkat lunak yang belum pernah ada sebelumnya, sementara AI hanya berperan sebagai asisten eksekusi!
+            <strong>Soal 7: Kreativitas Manusia dalam Inovasi Teknologi</strong> AI dilatih berdasarkan data masa lalu (kode-kode yang sudah ada di internet). Oleh karena itu, AI sangat hebat dalam mereplikasi pola yang sudah ada. Jelaskan mengapa "Kreativitas Manusia" (intuisi, imajinasi, dan visi masa depan) masih menjadi penggerak utama dalam memecahkan masalah arsitektur perangkat lunak yang belum pernah ada sebelumnya, sementara AI hanya berperan sebagai asisten eksekusi!
           </div>
 
-          <div class="answer-content">
+          <div class="answer-content verbatim-text">
+            <div class="jawaban-badge">JAWABAN SOAL 7</div>
+
             <p>
-              Model kecerdasan buatan bersifat <strong>retrospektif</strong>; pembelajarannya bersandar pada pola data historis yang telah terdokumentasi sebelumnya. AI unggul dalam interpolasi (menggabungkan dan mereplikasi hal-hal yang sudah ada), namun memiliki batasan mendasar dalam menghasilkan paradigma yang sepenuhnya baru.
+              Model kecerdasan buatan bersifat retrospektif; pembelajarannya bersandar pada pola data historis yang telah terdokumentasi sebelumnya. AI unggul dalam interpolasi (menggabungkan dan mereplikasi hal-hal yang sudah ada), namun memiliki batasan mendasar dalam menghasilkan paradigma yang sepenuhnya baru.
             </p>
 
-            <h4>Faktor Kreativitas Manusia sebagai Penggerak Utama:</h4>
-
-            <div class="innovation-grid">
-              <div class="inno-card">
-                <div class="inno-tag">Inovasi Zero-to-One</div>
-                <h4>Penciptaan Paradigma Baru</h4>
-                <p>
-                  Terobosan besar dalam rekayasa perangkat lunak—seperti pergeseran arsitektur monolitik ke <em>event-driven</em>, perancangan sistem kontrol versi terdistribusi (Git oleh Linus Torvalds), atau penciptaan model komputasi terdistribusi (MapReduce)—lahir dari pemikiran lateral manusia yang merespons masalah unik di dunia nyata, bukan dari pengulangan data masa lalu.
-                </p>
-              </div>
-
-              <div class="inno-card">
-                <div class="inno-tag">Intuisi & Konteks</div>
-                <h4>Pemahaman Konteks Holistik</h4>
-                <p>
-                  Manusia mampu menghubungkan bidang yang tidak terkait (misalnya mengadaptasi sistem biologi kekebalan tubuh ke dalam algoritma keamanan komputer, atau psikologi perilaku pasar ke dalam perancangan antarmuka) untuk memecahkan kendala sistem yang belum memiliki preseden.
-                </p>
-              </div>
-
-              <div class="inno-card inno-card-full">
-                <div class="inno-tag">Posisi Fundamental</div>
-                <h4>AI sebagai Akselerator, Bukan Arsitek</h4>
-                <p>
-                  Kreativitas, perumusan visi masa depan, dan intuisi arsitektur berasal dari manusia. AI berfungsi sebagai <strong>akselerator eksekusi (One-to-N)</strong> yang menerjemahkan visi tersebut menjadi modul-modul implementasi teknis dengan cepat dan terstruktur.
-                </p>
-              </div>
-            </div>
+            <h4>Kreativitas manusia tetap menjadi penggerak utama karena beberapa faktor:</h4>
+            <ul>
+              <li>
+                <strong>Penciptaan Paradigma Baru (Inovasi Zero-to-One):</strong> Terobosan besar dalam rekayasa perangkat lunak—seperti pergeseran arsitektur monolitik ke event-driven, perancangan sistem kontrol versi terdistribusi (Git), atau penciptaan model komputasi terdistribusi—lahir dari pemikiran lateral manusia yang merespons masalah unik di dunia nyata, bukan dari pengulangan data masa lalu.
+              </li>
+              <li>
+                <strong>Pemahaman Konteks Holistik dan Intuisi:</strong> Manusia mampu menghubungkan bidang yang tidak terkait (misalnya mengadaptasi sistem biologi ke dalam algoritma komputasi, atau perilaku pasar ke dalam perancangan antarmuka) untuk memecahkan kendala sistem yang belum memiliki preseden.
+              </li>
+              <li>
+                <strong>Posisi AI sebagai Akselerator, Bukan Arsitek:</strong> Kreativitas, perumusan visi masa depan, dan intuisi arsitektur berasal dari manusia. AI berfungsi sebagai akselerator eksekusi (One-to-N) yang menerjemahkan visi tersebut menjadi modul-modul implementasi teknis dengan cepat dan terstruktur.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -504,11 +413,14 @@
             <div class="question-number-badge">📚</div>
             <div>
               <span class="badge badge-primary">Daftar Pustaka</span>
-              <h2>Referensi Akademik & Studi Terkait</h2>
+              <h2>Sumber Referensi Akademik</h2>
             </div>
           </div>
 
           <div class="answer-content">
+            <p>
+              Penyusunan analisa di atas diperkuat dengan rujukan pustaka standar kecerdasan buatan dan psikologi kognitif:
+            </p>
             <ol class="references-list">
               <li>
                 <strong>Russell, S., & Norvig, P. (2020).</strong> <em>Artificial Intelligence: A Modern Approach (4th Edition).</em> Pearson.
@@ -523,7 +435,7 @@
                 <strong>Sweller, J. (1988).</strong> <em>Cognitive Load During Problem Solving: Effects on Learning.</em> Cognitive Science, 12(2), 257-285.
               </li>
               <li>
-                <strong>IEEE Global Initiative on Ethics of Autonomous and Intelligent Systems (2019).</strong> <em>Ethically Aligned Design: A Vision for Prioritizing Human Well-being with Autonomous and Intelligent Systems.</em> IEEE.
+                <strong>IEEE Global Initiative on Ethics of Autonomous and Intelligent Systems (2019).</strong> <em>Ethically Aligned Design.</em> IEEE.
               </li>
             </ol>
           </div>
@@ -532,7 +444,7 @@
         <!-- Bottom Navigation & Share -->
         <div class="article-bottom-nav">
           <router-link to="/" class="btn btn-secondary">
-            ← Kembali ke Beranda
+            ← Kembali ke Portal Akademik
           </router-link>
           <div class="bottom-actions">
             <CopyLinkBtn
@@ -542,7 +454,7 @@
               btn-class="btn-primary"
             />
             <router-link to="/tugas-2" class="btn btn-outline">
-              Lanjut ke Tugas 2 →
+              Buka Tugas 2 →
             </router-link>
           </div>
         </div>
@@ -551,22 +463,22 @@
       <!-- Sticky TOC Sidebar -->
       <aside class="article-toc">
         <div class="toc-sidebar glass-card">
-          <h4 class="toc-title">Daftar Isi Soal</h4>
+          <h4 class="toc-title">Daftar Soal Tugas 1</h4>
           <nav class="toc-nav">
-            <a href="#soal-1" class="toc-link">01. Sinergi AI & Kognisi</a>
-            <a href="#soal-2" class="toc-link">02. Cognitive Offloading</a>
-            <a href="#soal-3" class="toc-link">03. Computational Thinking</a>
-            <a href="#soal-4" class="toc-link">04. Flow State & Interupsi</a>
-            <a href="#soal-5" class="toc-link">05. Etika & Tanggung Jawab</a>
-            <a href="#soal-6" class="toc-link">06. Continuous Learning</a>
-            <a href="#soal-7" class="toc-link">07. Kreativitas Zero-to-One</a>
-            <a href="#referensi" class="toc-link">📚 Referensi Akademik</a>
+            <a href="#soal-1" class="toc-link">Soal 1: Sinergi AI & Kognisi</a>
+            <a href="#soal-2" class="toc-link">Soal 2: Cognitive Offloading</a>
+            <a href="#soal-3" class="toc-link">Soal 3: Computational Thinking</a>
+            <a href="#soal-4" class="toc-link">Soal 4: Flow State & Gangguan</a>
+            <a href="#soal-5" class="toc-link">Soal 5: Etika & Empati</a>
+            <a href="#soal-6" class="toc-link">Soal 6: Continuous Learning</a>
+            <a href="#soal-7" class="toc-link">Soal 7: Kreativitas Zero-to-One</a>
+            <a href="#referensi" class="toc-link">📚 Sumber Referensi</a>
           </nav>
 
           <hr class="toc-divider" />
 
           <div class="toc-quick-copy">
-            <span class="toc-label">Kumpulkan Tugas:</span>
+            <span class="toc-label">Tautan Pengumpulan:</span>
             <CopyLinkBtn
               target-path="/tugas-1"
               task-name="Tugas 1"
@@ -581,10 +493,12 @@
 </template>
 
 <script setup>
-import { COURSE_INFO } from '@/data/courseData'
+import { ref } from 'vue'
+import { PORTAL_INFO } from '@/data/courseData'
 import CopyLinkBtn from '@/components/CopyLinkBtn.vue'
 
-const courseInfo = COURSE_INFO
+const portalInfo = PORTAL_INFO
+const showGuidelines = ref(true)
 
 const printPage = () => {
   window.print()
@@ -609,6 +523,7 @@ const printPage = () => {
   font-size: 0.85rem;
   margin-bottom: 1.25rem;
   color: var(--text-dim);
+  flex-wrap: wrap;
 }
 
 .breadcrumb-nav a {
@@ -625,13 +540,13 @@ const printPage = () => {
 
 .article-main-title {
   font-size: clamp(2rem, 4vw, 2.8rem);
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.article-lead {
-  font-size: 1.15rem;
+.article-subtitle {
+  font-size: 1.2rem;
   color: var(--text-muted);
-  line-height: 1.7;
+  line-height: 1.5;
   margin-bottom: 2rem;
 }
 
@@ -684,6 +599,51 @@ const printPage = () => {
   flex-wrap: wrap;
 }
 
+.guidelines-accordion {
+  padding: 1.25rem 1.75rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border-medium);
+}
+
+.guidelines-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.guidelines-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-main);
+}
+
+.accordion-toggle {
+  font-size: 0.85rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.guidelines-content {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pdf-instructions-list {
+  padding-left: 1.5rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.pdf-instructions-list li {
+  margin-bottom: 0.4rem;
+}
+
 .article-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
@@ -701,184 +661,47 @@ const printPage = () => {
   margin-bottom: 3rem;
 }
 
+.jawaban-badge {
+  display: inline-block;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+}
+
+.verbatim-text {
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+}
+
+.verbatim-text p {
+  margin-bottom: 1.25rem;
+}
+
+.verbatim-text h4 {
+  color: var(--text-main);
+  font-size: 1.08rem;
+  margin: 1.5rem 0 0.6rem;
+}
+
+.verbatim-text ul, .verbatim-text ol {
+  margin: 0.8rem 0 1.4rem 1.5rem;
+}
+
+.verbatim-text li {
+  margin-bottom: 0.5rem;
+}
+
 .section-divider {
   border: none;
   border-top: 1px solid var(--border-subtle);
-  margin: 2rem 0;
-}
-
-.concept-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
-}
-
-.concept-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-}
-
-.concept-icon {
-  font-size: 1.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.concept-tagline {
-  font-size: 0.82rem;
-  color: var(--accent-cyan);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-}
-
-.feature-bullets {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-.bullet-box {
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 3px solid var(--accent-primary);
-  padding: 1.25rem 1.5rem;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-}
-
-.bullet-badge {
-  font-size: 0.72rem;
-  background: rgba(99, 102, 241, 0.15);
-  color: #a5b4fc;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  text-transform: uppercase;
-  font-weight: 700;
-  display: inline-block;
-  margin-bottom: 0.4rem;
-}
-
-.four-pillars-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
   margin: 1.75rem 0;
-}
-
-.pillar-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-}
-
-.pillar-num {
-  font-size: 1.25rem;
-  font-weight: 800;
-  font-family: var(--font-display);
-  color: var(--accent-emerald);
-  margin-bottom: 0.4rem;
-}
-
-.steps-flow {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.step-flow-item {
-  display: flex;
-  gap: 1.25rem;
-}
-
-.step-flow-badge {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--gradient-brand);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-
-.duo-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 1.5rem 0;
-}
-
-.duo-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-}
-
-.tutor-box {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.tutor-item {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-}
-
-.tutor-badge {
-  font-size: 0.75rem;
-  color: var(--accent-cyan);
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-}
-
-.example-prompt-box {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.85rem 1rem;
-  border-radius: var(--radius-sm);
-  margin-top: 0.75rem;
-  border-left: 2px solid var(--accent-cyan);
-}
-
-.innovation-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-.inno-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-}
-
-.inno-card-full {
-  grid-column: 1 / -1;
-  background: rgba(99, 102, 241, 0.05);
-  border-color: rgba(99, 102, 241, 0.25);
-}
-
-.inno-tag {
-  font-size: 0.75rem;
-  color: var(--accent-emerald);
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
 }
 
 .references-list {

@@ -4,23 +4,55 @@
       <router-link to="/" class="brand-logo">
         <div class="logo-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            <path d="M2 17l10 5 10-5"></path>
-            <path d="M2 12l10 5 10-5"></path>
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
           </svg>
         </div>
         <div class="brand-text">
-          <span class="brand-title">AI Academic<span class="gradient-text">.hub</span></span>
-          <span class="brand-sub">Kelas 17.5A.01 • Teknologi Informasi</span>
+          <span class="brand-title">Academic<span class="gradient-text">.hub</span></span>
+          <span class="brand-sub">Portal Tugas • Kelas 17.5A.01</span>
         </div>
       </router-link>
 
       <!-- Desktop Navigation -->
       <nav class="nav-links">
         <router-link to="/" class="nav-item" active-class="active" exact>Beranda</router-link>
-        <router-link to="/tugas-1" class="nav-item" active-class="active">Tugas 1: Sinergi AI</router-link>
-        <router-link to="/tugas-2" class="nav-item" active-class="active">Tugas 2: Teknik Pencarian</router-link>
-        <a href="#kelompok" class="nav-item" v-if="$route.path === '/'" @click.prevent="scrollToKelompok">Kelompok</a>
+        
+        <!-- Dropdown Mata Kuliah -->
+        <div class="nav-dropdown" @mouseenter="dropdownOpen = true" @mouseleave="dropdownOpen = false">
+          <button class="nav-dropdown-btn">
+            <span>Mata Kuliah</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div v-show="dropdownOpen" class="nav-dropdown-menu glass-card">
+            <div class="dropdown-header">Daftar Mata Kuliah:</div>
+            <router-link to="/#courses" class="dropdown-item" @click="dropdownOpen = false">
+              <span class="dot-active"></span>
+              <div>
+                <strong>Kecerdasan Buatan</strong>
+                <span class="dropdown-item-sub">2 Tugas Aktif (Tugas 1 & 2)</span>
+              </div>
+            </router-link>
+            <div class="dropdown-item item-disabled">
+              <span class="dot-disabled"></span>
+              <div>
+                <strong>Rekayasa Perangkat Lunak</strong>
+                <span class="dropdown-item-sub">Segera Hadir</span>
+              </div>
+            </div>
+            <div class="dropdown-item item-disabled">
+              <span class="dot-disabled"></span>
+              <div>
+                <strong>Sistem Basis Data Lanjut</strong>
+                <span class="dropdown-item-sub">Segera Hadir</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <router-link to="/tugas-1" class="nav-item" active-class="active">Tugas 1 (AI)</router-link>
+        <router-link to="/tugas-2" class="nav-item" active-class="active">Tugas 2 (AI)</router-link>
+        <a href="/#kelompok" class="nav-item">Kelompok</a>
       </nav>
 
       <!-- Actions -->
@@ -45,13 +77,13 @@
 
         <!-- Salin Link Current Page Button -->
         <CopyLinkBtn
-          v-if="$route.path !== '/'"
+          v-if="$route.path === '/tugas-1' || $route.path === '/tugas-2'"
           :task-name="$route.path === '/tugas-1' ? 'Tugas 1' : 'Tugas 2'"
-          label="Salin Link Halaman"
+          label="Salin Link Halaman Ini"
           btn-class="btn-primary btn-sm"
         />
         <router-link v-else to="/tugas-1" class="btn btn-primary btn-sm">
-          Mulai Baca
+          Buka Tugas AI
         </router-link>
 
         <!-- Mobile Menu Toggle -->
@@ -72,8 +104,10 @@
     <!-- Mobile Drawer -->
     <div v-if="mobileMenuOpen" class="mobile-drawer">
       <router-link to="/" class="mobile-nav-link" @click="mobileMenuOpen = false">Beranda</router-link>
+      <div class="mobile-category">Mata Kuliah: Kecerdasan Buatan</div>
       <router-link to="/tugas-1" class="mobile-nav-link" @click="mobileMenuOpen = false">Tugas 1: Sinergi AI & Kognisi</router-link>
       <router-link to="/tugas-2" class="mobile-nav-link" @click="mobileMenuOpen = false">Tugas 2: Teknik Pencarian</router-link>
+      <div class="mobile-category">Mata Kuliah Lainnya (Segera Hadir)</div>
       <div class="mobile-actions">
         <CopyLinkBtn target-path="/tugas-1" task-name="Tugas 1" label="Salin Link Tugas 1" btn-class="btn-secondary btn-sm" />
         <CopyLinkBtn target-path="/tugas-2" task-name="Tugas 2" label="Salin Link Tugas 2" btn-class="btn-secondary btn-sm" />
@@ -88,6 +122,7 @@ import CopyLinkBtn from './CopyLinkBtn.vue'
 
 const isDark = ref(true)
 const mobileMenuOpen = ref(false)
+const dropdownOpen = ref(false)
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
@@ -107,13 +142,6 @@ onMounted(() => {
     document.documentElement.setAttribute('data-theme', 'light')
   }
 })
-
-const scrollToKelompok = () => {
-  const el = document.getElementById('kelompok')
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
-  }
-}
 </script>
 
 <style scoped>
@@ -181,7 +209,7 @@ const scrollToKelompok = () => {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 1.8rem;
+  gap: 1.6rem;
 }
 
 .nav-item {
@@ -211,6 +239,95 @@ const scrollToKelompok = () => {
   height: 2px;
   background: var(--gradient-brand);
   border-radius: 2px;
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.2rem;
+  font-family: var(--font-sans);
+  transition: color 0.2s ease;
+}
+
+.nav-dropdown-btn:hover {
+  color: var(--text-main);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 250px;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.dropdown-header {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0.3rem 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 0.88rem;
+  transition: background 0.15s ease;
+}
+
+.dropdown-item:hover:not(.item-disabled) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-item-sub {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.item-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dot-active {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  flex-shrink: 0;
+}
+
+.dot-disabled {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  flex-shrink: 0;
 }
 
 .nav-actions {
@@ -253,16 +370,24 @@ const scrollToKelompok = () => {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
   box-shadow: var(--shadow-lg);
+}
+
+.mobile-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 700;
+  margin-top: 0.5rem;
 }
 
 .mobile-nav-link {
   text-decoration: none;
   color: var(--text-main);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -273,7 +398,7 @@ const scrollToKelompok = () => {
   margin-top: 0.5rem;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 920px) {
   .nav-links {
     display: none;
   }

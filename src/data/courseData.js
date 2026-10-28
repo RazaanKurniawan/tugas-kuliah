@@ -1,6 +1,5 @@
-export const COURSE_INFO = {
-  courseName: 'Kecerdasan Buatan',
-  courseCode: 'AI-175A',
+export const PORTAL_INFO = {
+  portalName: 'Academic Blog & Tugas Mahasiswa',
   studyProgram: 'Teknologi Informasi',
   className: '17.5A.01',
   semester: 'Semester 5 (Tahun Akademik 2026/2027)',
@@ -17,71 +16,102 @@ export const COURSE_INFO = {
     {
       name: 'Ridho Putra Rianar',
       nim: '17240102',
-      role: 'Co-Author & Algorithm Analyst',
+      role: 'Co-Author & Kontributor',
       avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Ridho&backgroundColor=8b5cf6'
     },
     {
       name: 'Aby Yazzy Wijaya',
       nim: '17240158',
-      role: 'Co-Author & Cognitive Systems Researcher',
+      role: 'Co-Author & Kontributor',
       avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Aby&backgroundColor=ec4899'
     },
     {
       name: 'Toma Brema',
       nim: '17240099',
-      role: 'Co-Author & AI Ethics Specialist',
+      role: 'Co-Author & Kontributor',
       avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Toma&backgroundColor=06b6d4'
     },
     {
       name: 'Sam Nurullah',
       nim: '17240117',
-      role: 'Co-Author & Heuristic Search Specialist',
+      role: 'Co-Author & Kontributor',
       avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Sam&backgroundColor=10b981'
     }
   ]
 }
 
-export const ASSIGNMENTS = [
+export const COURSES = [
   {
-    id: 1,
-    slug: 'tugas-1',
-    route: '/tugas-1',
-    title: 'Tugas 1: Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman',
-    shortTitle: 'Tugas 1: Sinergi AI & Kognisi Manusia',
-    pdfFile: '/docs/Tugas1AI.pdf',
-    pdfName: 'Tugas1AI.pdf',
-    badge: 'Essay & AI Cognitive Engineering',
-    readingTime: '15 Menit Baca',
-    topics: [
-      'Sinergi Komputasi AI & Kognisi Strategis',
-      'Cognitive Offloading & System Design',
-      'Computational Thinking & Prompt Engineering',
-      'Flow State & Eliminasi Gangguan Algoritma',
-      'Etika, Empati & Human Responsibility',
-      'Continuous Learning & Socratic Prompting',
-      'Kreativitas Manusia: Inovasi Zero-to-One'
-    ],
-    summary: 'Menganalisis pergeseran paradigma rekayasa perangkat lunak modern dari penulisan kode manual menuju kolaborasi kognitif manusia-mesin yang terarah, beretika, dan inovatif.'
+    id: 'ai',
+    code: 'AI-175A',
+    name: 'Kecerdasan Buatan',
+    icon: 'Brain',
+    status: 'Aktif',
+    description: 'Membahas pemecahan masalah dengan teknik pencarian, kecerdasan buatan, logika fuzzy, machine learning, dan potensi manusia dalam era pemrograman cerdas.',
+    assignmentsCount: 2,
+    assignments: [
+      {
+        id: 1,
+        slug: 'tugas-1',
+        route: '/tugas-1',
+        courseId: 'ai',
+        courseName: 'Kecerdasan Buatan',
+        title: 'Tugas 1 : Kecerdasan Buatan',
+        topic: 'Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman',
+        shortTitle: 'Tugas 1: AI & Potensi Manusia',
+        pdfFile: '/docs/Tugas1AI.pdf',
+        pdfName: 'Tugas1AI.pdf',
+        badge: 'Essay & AI Cognitive Engineering',
+        readingTime: '15 Menit Baca',
+        summary: 'Kajian mendalam sinergi komputasi AI dan kognisi manusia, cognitive offloading, computational thinking dalam prompt engineering, pengelolaan flow state, etika & empati, serta inovasi zero-to-one.'
+      },
+      {
+        id: 2,
+        slug: 'tugas-2',
+        route: '/tugas-2',
+        courseId: 'ai',
+        courseName: 'Kecerdasan Buatan',
+        title: 'Tugas 2 : Kecerdasan Buatan',
+        topic: 'Penyelesaian Masalah dengan Teknik Pencarian',
+        shortTitle: 'Tugas 2: Teknik Pencarian',
+        pdfFile: '/docs/Tugas2AI.pdf',
+        pdfName: 'Tugas2AI.pdf',
+        badge: 'Search Algorithms & Complexity',
+        readingTime: '20 Menit Baca',
+        summary: 'Analisis komparatif 6 komponen formulasi masalah (robot AGV gudang), pencarian buta BFS vs DFS, IDS, heuristik A* admissible, pencarian lokal Hill Climbing & Simulated Annealing, studi kasus 8-Queens (Min-Conflicts), dan mitigasi OOM pada sistem ride-hailing.'
+      }
+    ]
   },
   {
-    id: 2,
-    slug: 'tugas-2',
-    route: '/tugas-2',
-    title: 'Tugas 2: Penyelesaian Masalah dengan Teknik Pencarian (Search Algorithms)',
-    shortTitle: 'Tugas 2: Teknik Pencarian & Optimasi Algoritma',
-    pdfFile: '/docs/Tugas2AI.pdf',
-    pdfName: 'Tugas2AI.pdf',
-    badge: 'State Space & Algorithm Complexity',
-    readingTime: '20 Menit Baca',
-    topics: [
-      '6 Komponen Formulasi Masalah (Robot AGV Gudang)',
-      'Pencarian Buta: BFS vs DFS Matrix & Complexity',
-      'Iterative Deepening Search (IDS) Memory Efficiency',
-      'Pencarian Heuristik A* & Admissibility Guarantee',
-      'Local Search: Hill Climbing & Simulated Annealing',
-      'Studi Kasus 8-Queens: Min-Conflicts vs Tree Search',
-      'Dilema Skala Besar Ride-Hailing: Mitigasi OOM'
-    ],
-    summary: 'Mengkaji secara mendalam formulasi ruang status, trade-off time-space pada algoritma pencarian buta dan heuristik, serta strategi arsitektural untuk sistem skala jutaan rute real-time.'
+    id: 'rpl',
+    code: 'RPL-175A',
+    name: 'Rekayasa Perangkat Lunak',
+    icon: 'Layers',
+    status: 'Akan Datang',
+    description: 'Dokumentasi perancangan sistem informasi, Unified Modeling Language (UML), metodologi Scrum/Agile, serta software architecture design.',
+    assignmentsCount: 0,
+    assignments: []
+  },
+  {
+    id: 'bdl',
+    code: 'BDL-175A',
+    name: 'Sistem Basis Data Lanjut',
+    icon: 'Database',
+    status: 'Akan Datang',
+    description: 'Perancangan basis data relasional kompleks, teknik indexing & query optimization, normalisasi database, dan manajemen transaksi ACID.',
+    assignmentsCount: 0,
+    assignments: []
+  },
+  {
+    id: 'jkk',
+    code: 'JKK-175A',
+    name: 'Jaringan Komputer & Keamanan',
+    icon: 'Shield',
+    status: 'Akan Datang',
+    description: 'Konfigurasi topologi LAN/WAN, routing protokol OSPF/BGP, subnetting IPv4/IPv6, dan dasar-dasar cyber security pertahanan jaringan.',
+    assignmentsCount: 0,
+    assignments: []
   }
 ]
+
+export const COURSE_INFO = PORTAL_INFO
