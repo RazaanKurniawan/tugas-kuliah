@@ -1,3 +1,5 @@
+import { getAuthToken } from './auth'
+
 export const AI_BASE_URL = 'https://shiteru.id/v1'
 export const VERCEL_FALLBACK_URL = 'https://tugas-kuliah-razaan.vercel.app/v1/chat/completions'
 
@@ -85,13 +87,17 @@ INSTRUKSI PENTING:
   let response = null
   let errorMessage = ''
 
+  const authToken = getAuthToken()
+  const authHeaders = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${authToken}`
+  }
+
   // 1. Try local dev proxy endpoint /v1/chat/completions (matching Base URL https://shiteru.id/v1)
   try {
     const res = await fetch('/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: authHeaders,
       body: JSON.stringify(payload)
     })
     if (res.ok) {
@@ -109,9 +115,7 @@ INSTRUKSI PENTING:
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: authHeaders,
         body: JSON.stringify(payload)
       })
       if (res.ok) {
@@ -127,9 +131,7 @@ INSTRUKSI PENTING:
     try {
       const vercelRes = await fetch(VERCEL_FALLBACK_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: authHeaders,
         body: JSON.stringify(payload)
       })
       if (vercelRes.ok) {

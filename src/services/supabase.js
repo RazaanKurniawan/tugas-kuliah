@@ -188,3 +188,46 @@ export async function getAssignmentBySlug(slug) {
 
   return null
 }
+
+/**
+ * Delete dynamic assignment by slug from Supabase Storage & Catalog
+ */
+export async function deleteAssignment(slug) {
+  try {
+    // 1. Delete manifest file
+    await supabaseAdmin.storage
+      .from(BUCKET_NAME)
+      .remove([`manifests/${slug}.json`])
+
+    // 2. Update catalog index
+    let catalog = []
+    try {
+      const res = await fetch(CATALOG_PUBLIC_URL + `?t=${Date.now()}`)
+      if (res.ok) catalog = await res.json()
+    } catch (e) {
+      catalog = []
+    }
+
+    if (Array.isArray(catalog)) {
+      const updatedCatalog = catalog.filter(item => item.slug !== slug)
+      const blob = new Blob([JSON.stringify(updatedCatalog, null, 2)], { type: 'application/json' })
+      await supabaseAdmin.storage
+        .from(BUCKET_NAME)
+        .upload('catalog.json', blob, { contentType: 'application/json', upsert: true })
+    }
+
+    // 3. Remove from LocalStorage
+    try {
+      const list = JSON.parse(localStorage.getItem('dynamic_assignments') || '[]')
+      const filtered = list.filter(item => item.slug !== slug)
+      localStorage.setItem('dynamic_assignments', JSON.stringify(filtered))
+    } catch (e) {
+      // ignore
+    }
+
+    return { success: true }
+  } catch (err) {
+    console.error('Delete assignment error:', err)
+    return { success: false, error: err.message }
+  }
+}

@@ -15,6 +15,18 @@
         <p class="generator-sub">
           Unggah dokumen PDF soal atau materi tugas kuliah Anda. AI akan mengekstrak teks, menyusun struktur essay & jawaban analitis berstandar akademik, lalu menyimpannya langsung ke database Supabase.
         </p>
+
+        <!-- Admin Access Badge -->
+        <div class="admin-verified-bar">
+          <div class="admin-verified-info">
+            <span class="admin-shield-icon">🛡️</span>
+            <div>
+              <strong>Mode Administrator Aktif</strong>
+              <span>Sesi terautentikasi • Hanya Anda yang dapat mengunggah dan meng-generate artikel tugas baru.</span>
+            </div>
+          </div>
+          <span class="badge badge-emerald">CRUD & AI Protected</span>
+        </div>
       </div>
 
       <!-- Main Generator Card -->
@@ -382,6 +394,40 @@ const resetGenerator = () => {
   font-size: 1.05rem;
   color: var(--text-muted);
   line-height: 1.6;
+}
+
+.admin-verified-bar {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.admin-verified-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: left;
+}
+
+.admin-shield-icon {
+  font-size: 1.4rem;
+}
+
+.admin-verified-info strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--accent-emerald);
+}
+
+.admin-verified-info span {
+  font-size: 0.82rem;
+  color: var(--text-dim);
 }
 
 .generator-card {

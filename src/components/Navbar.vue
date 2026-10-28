@@ -76,9 +76,25 @@
         </button>
 
         <!-- AI Generator Button -->
-        <router-link to="/generator" class="btn btn-outline btn-sm" title="Upload PDF dan generate artikel otomatis dengan AI">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          <span>+ Upload PDF</span>
+        <router-link to="/generator" class="btn btn-outline btn-sm" :title="isAuthenticated ? 'AI Studio Generator' : 'Khusus Admin (Perlu Login)'">
+          <svg v-if="!isAuthenticated" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>{{ isAuthenticated ? '+ Upload PDF' : 'Upload PDF' }}</span>
+        </router-link>
+
+        <!-- Auth Status & Actions -->
+        <div v-if="isAuthenticated" class="admin-nav-group">
+          <span class="admin-status-pill" title="Administrator Terautentikasi">
+            <span class="admin-dot"></span>
+            <span>Admin</span>
+          </span>
+          <button class="icon-btn logout-nav-btn" @click="handleLogout" title="Keluar / Logout Admin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
+        <router-link v-else to="/login" class="btn btn-ghost btn-sm login-nav-btn" title="Masuk sebagai Administrator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Login</span>
         </router-link>
 
         <!-- Salin Link Current Page Button -->
@@ -125,11 +141,24 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '@/services/auth'
+import { useToast } from '@/composables/useToast'
 import CopyLinkBtn from './CopyLinkBtn.vue'
+
+const router = useRouter()
+const { currentUser, isAuthenticated, logout } = useAuth()
+const { showToast } = useToast()
 
 const isDark = ref(true)
 const mobileMenuOpen = ref(false)
 const dropdownOpen = ref(false)
+
+const handleLogout = async () => {
+  await logout()
+  showToast('Anda telah keluar dari mode administrator.', 'info')
+  router.push('/')
+}
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
@@ -341,6 +370,59 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.admin-nav-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.admin-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--accent-emerald);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+}
+
+.admin-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 6px var(--accent-emerald);
+}
+
+.logout-nav-btn {
+  width: 34px;
+  height: 34px;
+  color: var(--accent-rose);
+}
+
+.logout-nav-btn:hover {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: var(--accent-rose);
+  color: var(--accent-rose);
+}
+
+.login-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.login-nav-btn:hover {
+  color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.1);
 }
 
 .icon-btn {

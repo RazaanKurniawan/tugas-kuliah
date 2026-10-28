@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { isAuthenticated } from '@/services/auth'
 
 const routes = [
   {
@@ -10,11 +11,20 @@ const routes = [
     }
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: {
+      title: 'Autentikasi Administrator | Kelas 17.5A.01'
+    }
+  },
+  {
     path: '/generator',
     name: 'generator',
     component: () => import('@/views/UploadGeneratorView.vue'),
     meta: {
-      title: 'AI Studio: Upload & Generate Tugas Kuliah | Kelas 17.5A.01'
+      title: 'AI Studio: Upload & Generate Tugas Kuliah | Kelas 17.5A.01',
+      requiresAuth: true
     }
   },
   {
@@ -71,6 +81,23 @@ router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.title) {
     document.title = to.meta.title
   }
+
+  // Route Authentication Guard
+  if (to.meta && to.meta.requiresAuth) {
+    const authorized = isAuthenticated()
+    if (!authorized) {
+      // Redirect unauthenticated public visitors to login with return path
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath,
+          reason: 'auth_required'
+        }
+      })
+      return
+    }
+  }
+
   next()
 })
 

@@ -93,6 +93,20 @@
               </svg>
               <span>Cetak / Simpan PDF</span>
             </button>
+
+            <!-- Admin Delete Action -->
+            <button
+              v-if="isAuthenticated"
+              class="btn btn-danger-subtle"
+              @click="handleDeleteCurrent"
+              title="Hapus tugas ini dari database Supabase"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Hapus Tugas (Admin)</span>
+            </button>
           </div>
         </div>
       </header>
@@ -232,17 +246,33 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { PORTAL_INFO } from '@/data/courseData'
-import { getAssignmentBySlug } from '@/services/supabase'
+import { getAssignmentBySlug, deleteAssignment } from '@/services/supabase'
+import { useAuth } from '@/services/auth'
+import { useToast } from '@/composables/useToast'
 import CopyLinkBtn from '@/components/CopyLinkBtn.vue'
 
 const route = useRoute()
+const router = useRouter()
+const { isAuthenticated } = useAuth()
+const { showToast } = useToast()
 const portalInfo = PORTAL_INFO
 
 const assignment = ref(null)
 const isLoading = ref(true)
 const showGuidelines = ref(true)
+
+const handleDeleteCurrent = async () => {
+  if (!confirm(`Yakin ingin menghapus artikel tugas "${assignment.value?.title}" dari database Supabase?`)) return
+  const res = await deleteAssignment(route.params.slug)
+  if (res.success) {
+    showToast('Artikel tugas berhasil dihapus.', 'success')
+    router.push('/')
+  } else {
+    showToast(`Gagal menghapus: ${res.error}`, 'info')
+  }
+}
 
 const loadAssignment = async () => {
   isLoading.value = true

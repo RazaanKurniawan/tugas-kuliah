@@ -23,6 +23,19 @@ export default defineConfig({
             }
 
             if (req.method === 'POST') {
+              const clientAuth = req.headers['authorization'] || req.headers['Authorization'] || ''
+              const isPasskey = clientAuth.includes('passkey-razaan2026') || clientAuth.includes('razaan2026')
+              const isBearer = clientAuth.startsWith('Bearer ') && clientAuth.length > 15
+
+              if (!isPasskey && !isBearer) {
+                res.statusCode = 401
+                res.setHeader('Content-Type', 'application/json')
+                res.end(JSON.stringify({
+                  error: 'Unauthorized: Akses dibatasi untuk Administrator. Silakan login terlebih dahulu.'
+                }))
+                return
+              }
+
               let body = ''
               req.on('data', chunk => { body += chunk })
               req.on('end', async () => {

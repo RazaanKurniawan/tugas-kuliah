@@ -18,6 +18,18 @@ export default async function handler(req, res) {
     return
   }
 
+  // Authorization check - only authenticated admin can use AI generation
+  const clientAuth = req.headers.authorization || req.headers.Authorization || ''
+  const isPasskey = clientAuth.includes('passkey-razaan2026') || clientAuth.includes('razaan2026')
+  const isBearer = clientAuth.startsWith('Bearer ') && clientAuth.length > 15
+
+  if (!isPasskey && !isBearer) {
+    res.status(401).json({
+      error: 'Unauthorized: Akses dibatasi untuk Administrator. Silakan login terlebih dahulu.'
+    })
+    return
+  }
+
   try {
     const rawBody = typeof req.body === 'string' ? req.body : JSON.stringify(req.body)
     const upstream = await fetch('https://shiteru.id/v1/chat/completions', {

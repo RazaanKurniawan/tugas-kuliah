@@ -59,15 +59,17 @@
             <div class="cta-badge-row">
               <span class="badge badge-primary">✨ Fitur Otomatisasi Baru</span>
               <span class="badge badge-cyan">AI + Supabase</span>
+              <span v-if="!isAuthenticated" class="badge badge-warning">🔒 Akses Khusus Admin</span>
             </div>
             <h3>Punya PDF Tugas Kuliah Baru?</h3>
             <p>
               Tinggal unggah file dokumen PDF, AI akan langsung menganalisis dan membuat tampilan artikel blog tugas yang rapi serta otomatis tersimpan ke database Supabase.
             </p>
           </div>
-          <router-link to="/generator" class="btn btn-primary btn-lg">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            <span>Buka AI PDF Generator</span>
+          <router-link :to="isAuthenticated ? '/generator' : '/login?redirect=/generator'" class="btn btn-primary btn-lg">
+            <svg v-if="!isAuthenticated" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>{{ isAuthenticated ? 'Buka AI PDF Generator' : 'Login untuk Generate Tugas' }}</span>
           </router-link>
         </div>
       </div>
@@ -221,6 +223,18 @@
                 <a v-if="dyn.pdfFile" :href="dyn.pdfFile" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF">
                   PDF
                 </a>
+
+                <button
+                  v-if="isAuthenticated"
+                  class="btn btn-danger-subtle btn-sm btn-delete-task"
+                  @click="handleDeleteTask(dyn)"
+                  title="Hapus tugas ini dari Supabase (Khusus Admin)"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
               </div>
             </article>
           </div>
@@ -338,7 +352,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { PORTAL_INFO, COURSES } from '@/data/courseData'
-import { getDynamicAssignments } from '@/services/supabase'
+import { getDynamicAssignments, deleteAssignment } from '@/services/supabase'
+import { useAuth } from '@/services/auth'
+import { useToast } from '@/composables/useToast'
 import CopyLinkBtn from '@/components/CopyLinkBtn.vue'
 import GroupMembersCard from '@/components/GroupMembersCard.vue'
 
@@ -346,6 +362,20 @@ const portalInfo = PORTAL_INFO
 const courses = COURSES
 const selectedCourseId = ref('all')
 const dynamicAssignments = ref([])
+
+const { isAuthenticated } = useAuth()
+const { showToast } = useToast()
+
+const handleDeleteTask = async (task) => {
+  if (!confirm(`Apakah Anda yakin ingin menghapus "${task.title}" dari database Supabase?`)) return
+  const res = await deleteAssignment(task.slug)
+  if (res.success) {
+    dynamicAssignments.value = dynamicAssignments.value.filter(d => d.slug !== task.slug)
+    showToast(`Tugas "${task.title}" berhasil dihapus dari Supabase.`, 'success')
+  } else {
+    showToast(`Gagal menghapus: ${res.error}`, 'info')
+  }
+}
 
 onMounted(async () => {
   try {
