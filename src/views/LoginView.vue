@@ -124,18 +124,6 @@
               </svg>
             </button>
           </form>
-
-          <!-- Admin Credentials Helper Box -->
-          <div class="credentials-hint">
-            <div class="hint-header">
-              <span>💡 Kredensial Administrator Terdaftar:</span>
-            </div>
-            <div class="hint-grid">
-              <div><strong>Passkey Cepat:</strong> <code>razaan2026</code></div>
-              <div><strong>Email Supabase:</strong> <code>admin@academio.hub</code></div>
-              <div><strong>Password:</strong> <code>Admin#Academio2026!</code></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -359,34 +347,5 @@ const handleEmailLogin = async () => {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-}
-
-.credentials-hint {
-  margin-top: 2rem;
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius-md);
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  font-size: 0.82rem;
-  color: var(--text-muted);
-}
-
-.hint-header {
-  font-weight: 700;
-  color: var(--accent-emerald);
-  margin-bottom: 0.5rem;
-}
-
-.hint-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.hint-grid code {
-  color: var(--accent-cyan);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
 }
 </style>

@@ -1,58 +1,40 @@
 <template>
   <header class="navbar">
     <div class="container navbar-inner">
-      <router-link to="/" class="brand-logo">
-        <div class="logo-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      <!-- Left: Sidebar Toggle & Brand -->
+      <div class="navbar-left">
+        <button class="sidebar-trigger-btn" @click="sidebarOpen = true" title="Buka Menu Navigasi & Daftar Tugas">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
-        </div>
-        <div class="brand-text">
-          <span class="brand-title">Academic<span class="gradient-text">.hub</span></span>
-          <span class="brand-sub">Portal Tugas • Kelas 17.5A.01</span>
-        </div>
-      </router-link>
+          <span class="trigger-label">Menu</span>
+        </button>
 
-      <!-- Desktop Navigation -->
+        <router-link to="/" class="brand-logo">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Academic<span class="gradient-text">.hub</span></span>
+            <span class="brand-sub">Portal Tugas • Kelas 17.5A.01</span>
+          </div>
+        </router-link>
+      </div>
+
+      <!-- Desktop Navigation (Clean & Uncluttered) -->
       <nav class="nav-links">
         <router-link to="/" class="nav-item" active-class="active" exact>Beranda</router-link>
-        
-        <!-- Dropdown Mata Kuliah -->
-        <div class="nav-dropdown" @mouseenter="dropdownOpen = true" @mouseleave="dropdownOpen = false">
-          <button class="nav-dropdown-btn">
-            <span>Mata Kuliah</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          </button>
-          <div v-show="dropdownOpen" class="nav-dropdown-menu glass-card">
-            <div class="dropdown-header">Daftar Mata Kuliah:</div>
-            <router-link to="/#courses" class="dropdown-item" @click="dropdownOpen = false">
-              <span class="dot-active"></span>
-              <div>
-                <strong>Kecerdasan Buatan</strong>
-                <span class="dropdown-item-sub">2 Tugas Aktif (Tugas 1 & 2)</span>
-              </div>
-            </router-link>
-            <div class="dropdown-item item-disabled">
-              <span class="dot-disabled"></span>
-              <div>
-                <strong>Rekayasa Perangkat Lunak</strong>
-                <span class="dropdown-item-sub">Segera Hadir</span>
-              </div>
-            </div>
-            <div class="dropdown-item item-disabled">
-              <span class="dot-disabled"></span>
-              <div>
-                <strong>Sistem Basis Data Lanjut</strong>
-                <span class="dropdown-item-sub">Segera Hadir</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <router-link to="/tugas-1" class="nav-item" active-class="active">Tugas 1 (AI)</router-link>
-        <router-link to="/tugas-2" class="nav-item" active-class="active">Tugas 2 (AI)</router-link>
+        <a href="/#courses" class="nav-item">Mata Kuliah</a>
         <a href="/#kelompok" class="nav-item">Kelompok</a>
+        <button class="nav-item nav-btn-inline" @click="sidebarOpen = true">
+          <span>📚 Semua Tugas</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
       </nav>
 
       <!-- Actions -->
@@ -104,38 +86,11 @@
           label="Salin Link Halaman"
           btn-class="btn-primary btn-sm"
         />
-        <router-link v-else to="/tugas-1" class="btn btn-primary btn-sm">
-          Buka Tugas AI
-        </router-link>
-
-        <!-- Mobile Menu Toggle -->
-        <button class="icon-btn mobile-toggle" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Menu">
-          <svg v-if="!mobileMenuOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-          <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
       </div>
     </div>
 
-    <!-- Mobile Drawer -->
-    <div v-if="mobileMenuOpen" class="mobile-drawer">
-      <router-link to="/" class="mobile-nav-link" @click="mobileMenuOpen = false">Beranda</router-link>
-      <router-link to="/generator" class="mobile-nav-link" @click="mobileMenuOpen = false">✨ + Upload PDF & AI Generator</router-link>
-      <div class="mobile-category">Mata Kuliah: Kecerdasan Buatan</div>
-      <router-link to="/tugas-1" class="mobile-nav-link" @click="mobileMenuOpen = false">Tugas 1: Sinergi AI & Kognisi</router-link>
-      <router-link to="/tugas-2" class="mobile-nav-link" @click="mobileMenuOpen = false">Tugas 2: Teknik Pencarian</router-link>
-      <div class="mobile-category">Mata Kuliah Lainnya (Segera Hadir)</div>
-      <div class="mobile-actions">
-        <CopyLinkBtn target-path="/tugas-1" task-name="Tugas 1" label="Salin Link Tugas 1" btn-class="btn-secondary btn-sm" />
-        <CopyLinkBtn target-path="/tugas-2" task-name="Tugas 2" label="Salin Link Tugas 2" btn-class="btn-secondary btn-sm" />
-      </div>
-    </div>
+    <!-- Sliding Sidebar Drawer -->
+    <Sidebar :is-open="sidebarOpen" @close="sidebarOpen = false" />
   </header>
 </template>
 
@@ -145,14 +100,14 @@ import { useRouter } from 'vue-router'
 import { useAuth } from '@/services/auth'
 import { useToast } from '@/composables/useToast'
 import CopyLinkBtn from './CopyLinkBtn.vue'
+import Sidebar from './Sidebar.vue'
 
 const router = useRouter()
 const { currentUser, isAuthenticated, logout } = useAuth()
 const { showToast } = useToast()
 
 const isDark = ref(true)
-const mobileMenuOpen = ref(false)
-const dropdownOpen = ref(false)
+const sidebarOpen = ref(false)
 
 const handleLogout = async () => {
   await logout()
@@ -200,6 +155,48 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.sidebar-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-medium);
+  color: var(--text-main);
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-trigger-btn:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.trigger-label {
+  font-family: var(--font-sans);
+}
+
+.nav-btn-inline {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: inherit;
 }
 
 .brand-logo {
