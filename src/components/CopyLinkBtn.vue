@@ -51,11 +51,14 @@ const isCopied = ref(false)
 const { showToast } = useToast()
 
 const copyUrl = async () => {
-  let url = window.location.origin
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  const baseOrigin = isLocal ? 'https://tugas-kuliah.vercel.app' : window.location.origin
+  
+  let url = baseOrigin
   if (props.targetPath) {
     url = url + props.targetPath
   } else {
-    url = window.location.href
+    url = isLocal ? baseOrigin + window.location.pathname : window.location.href
   }
 
   try {

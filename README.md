@@ -58,41 +58,23 @@ Sesuai instruksi tugas ke-2 dan ke-3 (*"Buat pada Blog atau Web pribadi bukan Go
    ```bash
    git init
    git add .
-   git commit -m "feat: blog tugas kecerdasan buatan tugas 1 dan tugas 2"
+   git commit -m "feat: blog tugas kuliah multi-matkul dan tugas 1 & 2 kecerdasan buatan"
    git branch -M main
-   git remote add origin https://github.com/USERNAME/NAMA-REPO-ANDA.git
+   git remote add origin https://github.com/RazaanKurniawan/tugas-kuliah.git
    git push -u origin main
    ```
 2. Buka [Vercel Dashboard](https://vercel.com/dashboard).
 3. Klik tombol **"Add New..."** → **"Project"**.
-4. Pilih repository GitHub Anda, lalu klik **"Deploy"**. (Vercel akan otomatis mengenali framework Vite).
-5. Selesai! Anda akan mendapatkan domain publik seperti `https://tugas-ai-kelompok.vercel.app`.
-
-### Opsi B: Deploy Langsung via Vercel CLI
-1. Install Vercel CLI (jika belum ada):
-   ```bash
-   npm i -g vercel
-   ```
-2. Jalankan perintah deploy dari folder ini:
-   ```bash
-   vercel
-   ```
-3. Ikuti prompt konfirmasi di terminal. Untuk deploy langsung ke production:
-   ```bash
-   vercel --prod
-   ```
+4. Import repository **`RazaanKurniawan/tugas-kuliah`**, atur domain ke **`tugas-kuliah.vercel.app`**, lalu klik **"Deploy"**.
+5. Selesai! Website aktif di **https://tugas-kuliah.vercel.app**.
 
 ---
 
-## 📋 Cara Mengumpulkan ke MyBest
+## 📋 Tautan Resmi Pengumpulan ke MyBest
 
-Setelah website aktif di Vercel:
-1. Buka halaman utama atau langsung buka halaman tugas yang ingin dikumpulkan.
-2. Klik tombol **"Salin Link Tugas 1"** atau **"Salin Link Tugas 2"** yang ada di pojok atas atau di kartu masing-masing tugas.
-3. Link akan tersalin otomatis ke clipboard Anda dengan format:
-   - Tugas 1: `https://domain-anda.vercel.app/tugas-1`
-   - Tugas 2: `https://domain-anda.vercel.app/tugas-2`
-4. Paste link tersebut ke kolom pengumpulan di portal **MyBest**.
+Tautan tugas yang siap dikumpulkan ke MyBest:
+- **Tugas 1 (Kecerdasan Buatan):** `https://tugas-kuliah.vercel.app/tugas-1`
+- **Tugas 2 (Kecerdasan Buatan):** `https://tugas-kuliah.vercel.app/tugas-2`
 
 ---
 
