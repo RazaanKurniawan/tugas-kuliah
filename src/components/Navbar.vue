@@ -75,11 +75,17 @@
           </svg>
         </button>
 
+        <!-- AI Generator Button -->
+        <router-link to="/generator" class="btn btn-outline btn-sm" title="Upload PDF dan generate artikel otomatis dengan AI">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>+ Upload PDF</span>
+        </router-link>
+
         <!-- Salin Link Current Page Button -->
         <CopyLinkBtn
-          v-if="$route.path === '/tugas-1' || $route.path === '/tugas-2'"
-          :task-name="$route.path === '/tugas-1' ? 'Tugas 1' : 'Tugas 2'"
-          label="Salin Link Halaman Ini"
+          v-if="$route.path.startsWith('/tugas')"
+          :task-name="'Tugas'"
+          label="Salin Link Halaman"
           btn-class="btn-primary btn-sm"
         />
         <router-link v-else to="/tugas-1" class="btn btn-primary btn-sm">
@@ -104,6 +110,7 @@
     <!-- Mobile Drawer -->
     <div v-if="mobileMenuOpen" class="mobile-drawer">
       <router-link to="/" class="mobile-nav-link" @click="mobileMenuOpen = false">Beranda</router-link>
+      <router-link to="/generator" class="mobile-nav-link" @click="mobileMenuOpen = false">✨ + Upload PDF & AI Generator</router-link>
       <div class="mobile-category">Mata Kuliah: Kecerdasan Buatan</div>
       <router-link to="/tugas-1" class="mobile-nav-link" @click="mobileMenuOpen = false">Tugas 1: Sinergi AI & Kognisi</router-link>
       <router-link to="/tugas-2" class="mobile-nav-link" @click="mobileMenuOpen = false">Tugas 2: Teknik Pencarian</router-link>

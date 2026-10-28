@@ -52,6 +52,24 @@
             />
           </div>
         </div>
+
+        <!-- AI Generator Studio CTA Box -->
+        <div class="ai-studio-cta glass-card">
+          <div class="cta-left">
+            <div class="cta-badge-row">
+              <span class="badge badge-primary">✨ Fitur Otomatisasi Baru</span>
+              <span class="badge badge-cyan">AI + Supabase</span>
+            </div>
+            <h3>Punya PDF Tugas Kuliah Baru?</h3>
+            <p>
+              Tinggal unggah file dokumen PDF, AI akan langsung menganalisis dan membuat tampilan artikel blog tugas yang rapi serta otomatis tersimpan ke database Supabase.
+            </p>
+          </div>
+          <router-link to="/generator" class="btn btn-primary btn-lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>Buka AI PDF Generator</span>
+          </router-link>
+        </div>
       </div>
     </section>
 
@@ -163,6 +181,44 @@
                 />
 
                 <a href="/docs/Tugas2AI.pdf" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF Asli">
+                  PDF
+                </a>
+              </div>
+            </article>
+
+            <!-- Dynamic Assignments from Supabase -->
+            <article
+              v-for="dyn in dynamicAssignments"
+              :key="dyn.slug"
+              class="assignment-card glass-card glass-card-interactive"
+            >
+              <div class="card-badge-row">
+                <span class="badge badge-emerald">{{ dyn.courseName || 'Tugas Baru' }}</span>
+                <span class="reading-time">⏱ {{ dyn.readingTime || '15 Menit Baca' }}</span>
+              </div>
+
+              <h3 class="card-title">
+                <router-link :to="`/tugas/${dyn.slug}`">
+                  {{ dyn.title }}
+                </router-link>
+              </h3>
+
+              <p class="card-summary">{{ dyn.summary }}</p>
+
+              <div class="card-footer-actions">
+                <router-link :to="`/tugas/${dyn.slug}`" class="btn btn-primary btn-sm">
+                  <span>Baca Tugas</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </router-link>
+
+                <CopyLinkBtn
+                  :target-path="`/tugas/${dyn.slug}`"
+                  :task-name="dyn.title"
+                  label="Salin Link"
+                  btn-class="btn-secondary btn-sm"
+                />
+
+                <a v-if="dyn.pdfFile" :href="dyn.pdfFile" target="_blank" download class="btn btn-outline btn-sm" title="Unduh PDF">
                   PDF
                 </a>
               </div>
@@ -280,14 +336,25 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { PORTAL_INFO, COURSES } from '@/data/courseData'
+import { getDynamicAssignments } from '@/services/supabase'
 import CopyLinkBtn from '@/components/CopyLinkBtn.vue'
 import GroupMembersCard from '@/components/GroupMembersCard.vue'
 
 const portalInfo = PORTAL_INFO
 const courses = COURSES
 const selectedCourseId = ref('all')
+const dynamicAssignments = ref([])
+
+onMounted(async () => {
+  try {
+    const list = await getDynamicAssignments()
+    dynamicAssignments.value = list
+  } catch (err) {
+    console.warn('Note loading dynamic assignments:', err)
+  }
+})
 
 const otherCourses = computed(() => {
   if (selectedCourseId.value === 'all') {
@@ -298,6 +365,45 @@ const otherCourses = computed(() => {
 </script>
 
 <style scoped>
+.ai-studio-cta {
+  width: 100%;
+  max-width: 820px;
+  margin-top: 1.5rem;
+  padding: 1.75rem 2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(236, 72, 153, 0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  text-align: left;
+}
+
+.cta-left h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 0.3rem;
+}
+
+.cta-left p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.cta-badge-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 860px) {
+  .ai-studio-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .hero-section {
   padding: 5rem 0 3.5rem;
   text-align: center;

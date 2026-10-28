@@ -1,22 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import Tugas1View from '@/views/Tugas1View.vue'
-import Tugas2View from '@/views/Tugas2View.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: () => import('@/views/HomeView.vue'),
     meta: {
       title: 'Portal Akademik & Blog Tugas Kuliah | Kelas 17.5A.01'
+    }
+  },
+  {
+    path: '/generator',
+    name: 'generator',
+    component: () => import('@/views/UploadGeneratorView.vue'),
+    meta: {
+      title: 'AI Studio: Upload & Generate Tugas Kuliah | Kelas 17.5A.01'
     }
   },
   {
     path: '/tugas-1',
     alias: ['/kecerdasan-buatan/tugas-1'],
     name: 'tugas-1',
-    component: Tugas1View,
+    component: () => import('@/views/Tugas1View.vue'),
     meta: {
       title: 'Tugas 1: Kecerdasan Buatan dan Teknik Potensi Manusia dalam Pemrograman | Kelas 17.5A.01'
     }
@@ -25,9 +30,17 @@ const routes = [
     path: '/tugas-2',
     alias: ['/kecerdasan-buatan/tugas-2'],
     name: 'tugas-2',
-    component: Tugas2View,
+    component: () => import('@/views/Tugas2View.vue'),
     meta: {
       title: 'Tugas 2: Penyelesaian Masalah dengan Teknik Pencarian | Kelas 17.5A.01'
+    }
+  },
+  {
+    path: '/tugas/:slug',
+    name: 'dynamic-tugas',
+    component: () => import('@/views/DynamicTugasView.vue'),
+    meta: {
+      title: 'Artikel Tugas Kuliah | Kelas 17.5A.01'
     }
   },
   {
