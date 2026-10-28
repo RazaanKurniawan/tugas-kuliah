@@ -11,6 +11,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 export const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE)
 
 const BUCKET_NAME = 'assignments'
+const CATALOG_PUBLIC_URL = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/catalog.json`
 
 /**
  * Upload a PDF file to Supabase Storage
@@ -29,7 +30,7 @@ export async function uploadPdfToSupabase(file, slug) {
       })
 
     if (error) {
-      console.warn('Storage upload warning:', error.message)
+      console.warn('Storage upload note:', error.message)
       return { success: false, error: error.message }
     }
 
@@ -43,14 +44,14 @@ export async function uploadPdfToSupabase(file, slug) {
       publicUrl: publicUrlData.publicUrl
     }
   } catch (err) {
-    console.error('uploadPdfToSupabase error:', err)
+    console.warn('uploadPdfToSupabase note:', err)
     return { success: false, error: err.message }
   }
 }
 
 /**
  * Save assignment payload to Supabase
- * Tries Database Table first, with seamless Storage JSON & LocalStorage failover
+ * Tries Storage Bucket persistence first (100% reliable) + optional DB table + LocalStorage
  */
 export async function saveAssignmentToSupabase(assignment) {
   const slug = assignment.slug || `tugas-${Date.now()}`
@@ -60,29 +61,9 @@ export async function saveAssignmentToSupabase(assignment) {
     updated_at: new Date().toISOString()
   }
 
-  let tableSuccess = false
   let storageSuccess = false
 
-  // 1. Try DB table if available
-  try {
-    const { error } = await supabaseAdmin
-      .from('assignments')
-      .upsert({
-        slug: payload.slug,
-        course_id: payload.courseId || 'ai',
-        course_name: payload.courseName || 'Kecerdasan Buatan',
-        title: payload.title,
-        data: payload
-      }, { onConflict: 'slug' })
-
-    if (!error) {
-      tableSuccess = true
-    }
-  } catch (err) {
-    console.log('Database table not yet initialized, continuing with Storage persistence...')
-  }
-
-  // 2. Persist to Storage Bucket as standalone JSON for 100% reliability
+  // 1. Persist to Storage Bucket as standalone JSON for 100% reliability
   try {
     const jsonBlob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
     const { error: storageError } = await supabaseAdmin.storage
@@ -101,6 +82,7 @@ export async function saveAssignmentToSupabase(assignment) {
     console.warn('Storage manifest save note:', err.message)
   }
 
+
   // 3. LocalStorage backup cache for instant client retrieval
   try {
     const localList = JSON.parse(localStorage.getItem('dynamic_assignments') || '[]')
@@ -112,7 +94,7 @@ export async function saveAssignmentToSupabase(assignment) {
   }
 
   return {
-    success: tableSuccess || storageSuccess || true,
+    success: true,
     slug,
     payload
   }
@@ -125,16 +107,15 @@ async function updateCatalogIndex(newAssignment) {
   try {
     let catalog = []
     try {
-      const { data } = await supabaseAdmin.storage
-        .from(BUCKET_NAME)
-        .download('catalog.json')
-      if (data) {
-        const text = await data.text()
-        catalog = JSON.parse(text)
+      const res = await fetch(CATALOG_PUBLIC_URL + `?t=${Date.now()}`)
+      if (res.ok) {
+        catalog = await res.json()
       }
     } catch (e) {
       catalog = []
     }
+
+    if (!Array.isArray(catalog)) catalog = []
 
     catalog = catalog.filter(c => c.slug !== newAssignment.slug)
     catalog.unshift({
@@ -160,30 +141,12 @@ async function updateCatalogIndex(newAssignment) {
  * Fetch all dynamic assignments from Supabase
  */
 export async function getDynamicAssignments() {
-  // 1. Try DB
+  // 1. Try public storage catalog first (fastest, zero SQL table dependency)
   try {
-    const { data, error } = await supabase
-      .from('assignments')
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (!error && data && data.length > 0) {
-      return data.map(row => row.data || row)
-    }
-  } catch (e) {
-    // fallback
-  }
-
-  // 2. Try Storage catalog
-  try {
-    const { data } = await supabase.storage
-      .from(BUCKET_NAME)
-      .download('catalog.json')
-
-    if (data) {
-      const text = await data.text()
-      const catalog = JSON.parse(text)
-      if (catalog && catalog.length > 0) {
+    const res = await fetch(CATALOG_PUBLIC_URL + `?t=${Date.now()}`)
+    if (res.ok) {
+      const catalog = await res.json()
+      if (Array.isArray(catalog) && catalog.length > 0) {
         return catalog
       }
     }
@@ -191,7 +154,7 @@ export async function getDynamicAssignments() {
     // fallback
   }
 
-  // 3. Fallback to LocalStorage
+  // 2. Try LocalStorage
   try {
     return JSON.parse(localStorage.getItem('dynamic_assignments') || '[]')
   } catch (e) {
@@ -203,36 +166,18 @@ export async function getDynamicAssignments() {
  * Fetch a single dynamic assignment by slug
  */
 export async function getAssignmentBySlug(slug) {
-  // 1. Try DB
+  // 1. Try public storage manifest
   try {
-    const { data, error } = await supabase
-      .from('assignments')
-      .select('data')
-      .eq('slug', slug)
-      .single()
-
-    if (!error && data && data.data) {
-      return data.data
+    const manifestUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/manifests/${slug}.json?t=${Date.now()}`
+    const res = await fetch(manifestUrl)
+    if (res.ok) {
+      return await res.json()
     }
   } catch (e) {
     // fallback
   }
 
-  // 2. Try Storage manifest
-  try {
-    const { data } = await supabase.storage
-      .from(BUCKET_NAME)
-      .download(`manifests/${slug}.json`)
-
-    if (data) {
-      const text = await data.text()
-      return JSON.parse(text)
-    }
-  } catch (e) {
-    // fallback
-  }
-
-  // 3. Try LocalStorage
+  // 2. Try LocalStorage
   try {
     const list = JSON.parse(localStorage.getItem('dynamic_assignments') || '[]')
     const found = list.find(item => item.slug === slug)

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "watch": "vite watch-and-build.cjs",
     "build": "vite build",
     "preview": "vite preview"
   },
