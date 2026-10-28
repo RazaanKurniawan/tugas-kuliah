@@ -9,7 +9,9 @@ export default defineConfig({
       name: 'api-chat-dev-middleware',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
-          if (req.url === '/api/chat' || req.url?.startsWith('/api/chat?')) {
+          const isChat = req.url === '/api/chat' || req.url?.startsWith('/api/chat?') ||
+                         req.url === '/v1/chat/completions' || req.url?.startsWith('/v1/chat/completions?')
+          if (isChat) {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
             res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')

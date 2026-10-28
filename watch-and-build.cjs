@@ -4,14 +4,14 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 // Configuration
-const WATCH_DIRECTORIES = ['src', 'public', 'index.html', 'vite.config.ts', 'tailwind.config.js'];
+const WATCH_DIRECTORIES = ['src', 'public', 'index.html', 'vite.config.js'];
 const DEBOUNCE_DELAY = 1000; // 1 second delay to avoid multiple rapid builds
 
 let buildTimeout;
 let isBuilding = false;
 let serveProcess = null;
 
-console.log('🔍 Starting file watcher for lms-admin-fe...');
+console.log('🔍 Starting file watcher for Portal Tugas Akademik...');
 console.log('📁 Watching directories:', WATCH_DIRECTORIES.join(', '));
 
 // Function to run npm commands

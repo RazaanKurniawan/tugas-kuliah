@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "watch": "vite build --watch",
+    "serve": "vite",
+    "watch": "node watch-and-build.cjs",
     "build": "vite build",
     "preview": "vite preview"
   },

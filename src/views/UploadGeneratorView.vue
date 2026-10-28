@@ -102,23 +102,33 @@
             <div class="loader-icon">✨</div>
           </div>
 
+          <div class="live-target-badge">
+            <span class="live-pulse-dot"></span>
+            <span>Target AI: <strong>https://shiteru.id/v1</strong> • Model: <strong>{{ selectedModel }}</strong></span>
+          </div>
+
           <h3 class="processing-title">{{ currentStepText }}</h3>
           <p class="processing-sub">
-            AI sedang memproses dokumen Anda dan mengintegrasikannya dengan Supabase. Mohon tunggu beberapa detik...
+            AI sedang menganalisis dokumen dan menyusun artikel akademik lengkap. Mohon tunggu sekitar 15-25 detik.
           </p>
+
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" :style="{ width: progressPercent + '%' }"></div>
+          </div>
+          <div class="progress-percent-label">{{ Math.round(progressPercent) }}% • {{ elapsedSeconds }} detik berjalan</div>
 
           <div class="progress-steps-list">
             <div :class="['prog-step', { done: stepProgress > 1, active: stepProgress === 1 }]">
               <span class="step-dot"></span>
-              <span>1. Ekstraksi teks & halaman dari file PDF</span>
+              <span>1. Ekstraksi teks & struktur soal dari file PDF</span>
             </div>
             <div :class="['prog-step', { done: stepProgress > 2, active: stepProgress === 2 }]">
               <span class="step-dot"></span>
-              <span>2. Analisis soal & strukturisasi artikel dengan {{ selectedModel }}</span>
+              <span>2. Analisis analitis & formulasi jawaban essay dengan Gemini Flash</span>
             </div>
             <div :class="['prog-step', { done: stepProgress > 3, active: stepProgress === 3 }]">
               <span class="step-dot"></span>
-              <span>3. Upload file PDF ke Supabase Storage (Bucket assignments)</span>
+              <span>3. Unggah file PDF asli ke Supabase Storage (Bucket assignments)</span>
             </div>
             <div :class="['prog-step', { done: stepProgress > 4, active: stepProgress === 4 }]">
               <span class="step-dot"></span>
@@ -207,8 +217,11 @@ const isDragging = ref(false)
 const isProcessing = ref(false)
 const stepProgress = ref(0)
 const currentStepText = ref('')
+const elapsedSeconds = ref(0)
+const progressPercent = ref(10)
 const generatedResult = ref(null)
 const generatedUrl = ref('')
+let timerInterval = null
 
 const { showToast } = useToast()
 
@@ -238,7 +251,38 @@ const startGeneration = async () => {
 
   isProcessing.value = true
   stepProgress.value = 1
-  currentStepText.value = 'Mengekstrak teks & struktur dari dokumen PDF...'
+  elapsedSeconds.value = 0
+  progressPercent.value = 10
+  currentStepText.value = 'Mengekstrak teks & struktur soal dari dokumen PDF...'
+
+  // Live timer & progressive stages
+  if (timerInterval) clearInterval(timerInterval)
+  timerInterval = setInterval(() => {
+    elapsedSeconds.value++
+    if (stepProgress.value === 1) {
+      progressPercent.value = Math.min(25, progressPercent.value + 4)
+    } else if (stepProgress.value === 2) {
+      if (elapsedSeconds.value < 5) {
+        currentStepText.value = `Menyusun struktur essay & jawaban dengan AI (${selectedModel.value})...`
+        progressPercent.value = Math.min(45, progressPercent.value + 3)
+      } else if (elapsedSeconds.value < 14) {
+        currentStepText.value = 'AI Gemini sedang merumuskan analisis ilmiah & membedah tiap soal...'
+        progressPercent.value = Math.min(72, progressPercent.value + 2)
+      } else if (elapsedSeconds.value < 22) {
+        currentStepText.value = 'Menyusun analisis analitis per soal & format baku referensi akademik...'
+        progressPercent.value = Math.min(88, progressPercent.value + 1.2)
+      } else {
+        currentStepText.value = 'Memvalidasi struktur data & menyiapkan integrasi Supabase...'
+        progressPercent.value = Math.min(94, progressPercent.value + 0.4)
+      }
+    } else if (stepProgress.value === 3) {
+      currentStepText.value = 'Mengunggah file PDF asli ke Supabase Storage...'
+      progressPercent.value = Math.max(95, progressPercent.value)
+    } else if (stepProgress.value === 4) {
+      currentStepText.value = 'Menyimpan artikel ke database Supabase...'
+      progressPercent.value = 98
+    }
+  }, 1000)
 
   const currentCourse = courses.find(c => c.id === selectedCourseId.value) || {
     id: 'ai',
@@ -249,7 +293,7 @@ const startGeneration = async () => {
     // 1. Extract PDF text
     const { text, numPages } = await extractTextFromPdf(selectedFile.value)
     
-    // 2. Call AI Generator
+    // 2. Call AI Generator (via local/Vercel proxy to https://shiteru.id/v1)
     stepProgress.value = 2
     currentStepText.value = `Menyusun struktur essay & jawaban dengan AI (${selectedModel.value})...`
     
@@ -277,6 +321,7 @@ const startGeneration = async () => {
     await saveAssignmentToSupabase(aiOutput)
 
     // Complete!
+    progressPercent.value = 100
     generatedResult.value = aiOutput
     generatedUrl.value = `https://tugas-kuliah-razaan.vercel.app/tugas/${aiOutput.slug}`
     
@@ -291,14 +336,18 @@ const startGeneration = async () => {
     console.error('Generation error:', err)
     showToast(`Error: ${err.message || 'Gagal memproses dokumen'}`, 'info')
   } finally {
+    if (timerInterval) clearInterval(timerInterval)
     isProcessing.value = false
   }
 }
 
 const resetGenerator = () => {
+  if (timerInterval) clearInterval(timerInterval)
   selectedFile.value = null
   generatedResult.value = null
   stepProgress.value = 0
+  elapsedSeconds.value = 0
+  progressPercent.value = 10
 }
 </script>
 
@@ -483,6 +532,52 @@ const resetGenerator = () => {
 
 .loader-icon {
   font-size: 2rem;
+}
+
+.live-target-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  margin-bottom: 1.25rem;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse 1.5s infinite;
+}
+
+.progress-bar-container {
+  width: 100%;
+  max-width: 440px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  margin: 0 auto 0.4rem;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-cyan));
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.progress-percent-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .processing-title {

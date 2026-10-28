@@ -1,40 +1,47 @@
-const VERCEL_FALLBACK_URL = 'https://tugas-kuliah-razaan.vercel.app/api/chat'
+export const AI_BASE_URL = 'https://shiteru.id/v1'
+export const VERCEL_FALLBACK_URL = 'https://tugas-kuliah-razaan.vercel.app/v1/chat/completions'
 
 /**
- * Generate structured academic blog article from PDF text using AI
+ * Generate structured academic blog article from PDF text using AI (Gemini via shiteru.id)
  * @param {string} pdfText
  * @param {object} metadata { courseName, courseId, defaultClassName, defaultProgram, model }
  */
 export async function generateAssignmentFromPdf(pdfText, metadata = {}) {
   const chosenModel = metadata.model || 'gemini-3.8-flash'
 
-  const prompt = `Anda adalah asisten AI akademik tingkat lanjut. Tugas Anda adalah menganalisis teks tugas kuliah yang diekstrak dari dokumen PDF, lalu menghasilkan struktur data artikel blog akademik yang sangat rapi, mendalam, dan terstruktur.
+  // Clean and condense PDF text to speed up processing
+  const cleanPdfText = (pdfText || '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .slice(0, 8500)
 
-Berikut adalah teks dokumen PDF:
+  const prompt = `Anda adalah asisten AI akademik universitas. Analisis teks dokumen tugas kuliah berikut:
 ---
-${pdfText.slice(0, 18000)}
+${cleanPdfText}
 ---
 
 Mata Kuliah: ${metadata.courseName || 'Kecerdasan Buatan'}
 Kelas: ${metadata.defaultClassName || '17.5A.01'}
 Program Studi: ${metadata.defaultProgram || 'Teknologi Informasi'}
 
-INSTRUKSI FORMAT OUTPUT:
-Kembalikan HANYA format JSON valid tanpa teks pengantar atau penutup apapun (jangan sertakan markdown atau teks di luar blok JSON).
-Format JSON yang harus dipatuhi:
+INSTRUKSI PENTING:
+1. Kembalikan HANYA format JSON valid, dimulai langsung dengan karakter { dan diakhiri }. Jangan menambahkan teks pengantar, penutup, atau markdown apapun di luar objek JSON.
+2. Setiap soal dalam dokumen harus dijawab secara analitis, tajam, komprehensif, dan to-the-point berstandar akademik.
+3. Struktur JSON yang WAJIB dipatuhi:
 {
-  "title": "Judul Lengkap Tugas (contoh: Tugas 2 : Penerapan Algoritma Pencarian & Optimasi)",
-  "shortTitle": "Judul Singkat (contoh: Tugas 2: Algoritma Pencarian)",
-  "slug": "slug-url-ramah-seo (contoh: tugas-2-algoritma-pencarian)",
+  "title": "Judul Lengkap Tugas",
+  "shortTitle": "Judul Singkat Tugas",
+  "slug": "slug-url-ramah-seo",
   "courseId": "${metadata.courseId || 'ai'}",
   "courseName": "${metadata.courseName || 'Kecerdasan Buatan'}",
   "topic": "Topik Utama Tugas",
-  "badge": "Label Kategori",
+  "badge": "Kategori",
   "readingTime": "15 Menit Baca",
-  "summary": "Ringkasan komprehensif isi tugas dalam 2-3 kalimat",
+  "summary": "Ringkasan komprehensif isi tugas dalam 2-3 kalimat ilmiah.",
   "instructions": [
     "1. Kerjakan secara Kelompok",
-    "2. ..."
+    "2. Unggah jawaban ke portal MyBest"
   ],
   "identity": {
     "className": "${metadata.defaultClassName || '17.5A.01'}",
@@ -45,9 +52,9 @@ Format JSON yang harus dipatuhi:
     {
       "number": 1,
       "badge": "Soal 1",
-      "title": "SOAL 1: JUDUL SOAL DENGAN HURUF KAPITAL",
+      "title": "SOAL 1: JUDUL SOAL DALAM HURUF BESAR",
       "question": "Teks lengkap pertanyaan soal...",
-      "answer": "Teks lengkap dan analisa terstruktur jawaban...",
+      "answer": "Jawaban lengkap dan analisa terstruktur akademik...",
       "keyPoints": [
         "Poin penting 1",
         "Poin penting 2"
@@ -55,7 +62,7 @@ Format JSON yang harus dipatuhi:
     }
   ],
   "references": [
-    "Daftar pustaka atau referensi akademik format baku APA..."
+    "Russell, S., & Norvig, P. (2020). Artificial Intelligence: A Modern Approach (4th ed.). Pearson."
   ]
 }`
 
@@ -64,23 +71,23 @@ Format JSON yang harus dipatuhi:
     messages: [
       {
         role: 'system',
-        content: 'Anda adalah asisten pembuatan artikel blog ilmiah universitas. Hasilkan respons JSON yang valid dan lengkap sesuai instruksi pengguna.'
+        content: 'Anda adalah asisten pembuatan artikel blog ilmiah universitas. Hasilkan respons JSON murni yang valid tanpa teks pengantar.'
       },
       {
         role: 'user',
         content: prompt
       }
     ],
-    temperature: 0.3,
-    max_tokens: 8192
+    temperature: 0.2,
+    max_tokens: 3600
   }
 
   let response = null
   let errorMessage = ''
 
-  // 1. Try local dev middleware or relative /api/chat (works locally & on Vercel)
+  // 1. Try local dev proxy endpoint /v1/chat/completions (matching Base URL https://shiteru.id/v1)
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch('/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -91,13 +98,31 @@ Format JSON yang harus dipatuhi:
       response = res
     } else {
       const errBody = await res.text()
-      errorMessage = `Proxy /api/chat HTTP ${res.status}: ${errBody}`
+      errorMessage = `/v1/chat/completions status ${res.status}: ${errBody}`
     }
   } catch (err) {
-    errorMessage = `Local /api/chat network error: ${err.message}`
+    errorMessage = `Local proxy error: ${err.message}`
   }
 
-  // 2. If relative /api/chat wasn't available, fall back to Vercel production serverless proxy
+  // 2. Try alternative /api/chat if /v1/chat/completions didn't catch
+  if (!response) {
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      if (res.ok) {
+        response = res
+      }
+    } catch (e) {
+      // continue to fallback
+    }
+  }
+
+  // 3. Fallback to Vercel production serverless proxy
   if (!response) {
     try {
       const vercelRes = await fetch(VERCEL_FALLBACK_URL, {
@@ -119,18 +144,24 @@ Format JSON yang harus dipatuhi:
   }
 
   if (!response) {
-    throw new Error(`Gagal menghubungi server AI. ${errorMessage}`)
+    throw new Error(`Gagal menghubungi server AI (https://shiteru.id/v1). ${errorMessage}`)
   }
 
   const result = await response.json()
   const rawContent = result.choices?.[0]?.message?.content || ''
 
-  // Clean JSON string if wrapped in markdown
+  // Clean JSON string: strip markdown blocks or leading conversational text
   let cleaned = rawContent.trim()
   if (cleaned.startsWith('```json')) {
     cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '')
   } else if (cleaned.startsWith('```')) {
     cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '')
+  }
+
+  // If there is still conversational text before the opening brace, extract the JSON block
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/)
+  if (jsonMatch) {
+    cleaned = jsonMatch[0]
   }
 
   try {
