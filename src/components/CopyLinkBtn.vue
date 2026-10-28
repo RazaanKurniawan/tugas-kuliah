@@ -52,7 +52,7 @@ const { showToast } = useToast()
 
 const copyUrl = async () => {
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  const baseOrigin = isLocal ? 'https://tugas-kuliah.vercel.app' : window.location.origin
+  const baseOrigin = isLocal ? 'https://tugas-kuliah-razaan.vercel.app' : window.location.origin
   
   let url = baseOrigin
   if (props.targetPath) {

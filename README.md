@@ -65,16 +65,16 @@ Sesuai instruksi tugas ke-2 dan ke-3 (*"Buat pada Blog atau Web pribadi bukan Go
    ```
 2. Buka [Vercel Dashboard](https://vercel.com/dashboard).
 3. Klik tombol **"Add New..."** → **"Project"**.
-4. Import repository **`RazaanKurniawan/tugas-kuliah`**, atur domain ke **`tugas-kuliah.vercel.app`**, lalu klik **"Deploy"**.
-5. Selesai! Website aktif di **https://tugas-kuliah.vercel.app**.
+4. Import repository **`RazaanKurniawan/tugas-kuliah`**, atur domain / project name ke **`tugas-kuliah-razaan`** (atau tambahkan domain `tugas-kuliah-razaan.vercel.app` di Settings > Domains), lalu klik **"Deploy"**.
+5. Selesai! Website aktif di **https://tugas-kuliah-razaan.vercel.app**.
 
 ---
 
 ## 📋 Tautan Resmi Pengumpulan ke MyBest
 
 Tautan tugas yang siap dikumpulkan ke MyBest:
-- **Tugas 1 (Kecerdasan Buatan):** `https://tugas-kuliah.vercel.app/tugas-1`
-- **Tugas 2 (Kecerdasan Buatan):** `https://tugas-kuliah.vercel.app/tugas-2`
+- **Tugas 1 (Kecerdasan Buatan):** `https://tugas-kuliah-razaan.vercel.app/tugas-1`
+- **Tugas 2 (Kecerdasan Buatan):** `https://tugas-kuliah-razaan.vercel.app/tugas-2`
 
 ---
 
